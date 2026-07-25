@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0.0",
+  "project": "ETHUSDC_ADAPTIVE_MULTI_LANE_V2",
+  "phase": 0,
+  "phase_name": "Governance and scaffold",
+  "status": "IN_PROGRESS",
+  "gate": "PENDING",
+  "updated_at_utc": null,
+  "git": {
+    "base_sha": "20654e1",
+    "phase_commit_sha": null,
+    "working_tree_clean": false
+  },
+  "holdout": {
+    "state": "SEALED",
+    "access_attempted": false,
+    "default_denial_test": "PENDING"
+  },
+  "market_data": {
+    "downloaded_in_phase": false,
+    "large_files_committed": false
+  },
+  "checks": {
+    "install": {
+      "status": "PENDING",
+      "command": "python -m pip install -e \".[dev]\"",
+      "exit_code": null,
+      "summary": null
+    },
+    "config_validation": {
+      "status": "PENDING",
+      "command": "make validate-config",
+      "exit_code": null,
+      "summary": null
+    },
+    "lint": {
+      "status": "PENDING",
+      "command": "make lint",
+      "exit_code": null,
+      "summary": null
+    },
+    "typecheck": {
+      "status": "PENDING",
+      "command": "make typecheck",
+      "exit_code": null,
+      "summary": null
+    },
+    "pytest": {
+      "status": "PENDING",
+      "command": "make test",
+      "exit_code": null,
+      "summary": null
+    },
+    "ci": {
+      "status": "PENDING",
+      "workflow": ".github/workflows/ci.yml",
+      "run_url": null,
+      "summary": null
+    }
+  },
+  "artifacts": {
+    "status_file": "STATUS.md",
+    "phase_report": "reports/phase_00/PHASE_00_REPORT.md",
+    "data_governance": "data/README.md"
+  },
+  "blockers": [
+    "Phase 0 implementation and validation suite have not completed.",
+    "Phase-level commit has not been recorded."
+  ],
+  "next_allowed_action": "Complete and record Phase 0 validation; do not start Phase 1."
+}

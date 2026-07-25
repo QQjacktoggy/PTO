@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phase-00-quality:
+    name: Python 3.11 quality gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install locked project environment
+        run: make setup
+
+      - name: Validate configuration
+        run: make validate-config
+
+      - name: Lint and format check
+        run: make lint
+
+      - name: Type check
+        run: make typecheck
+
+      - name: Run tests
+        run: make test
+
+# Governance boundary:
+# CI intentionally does not download market data and never invokes holdout-run.
