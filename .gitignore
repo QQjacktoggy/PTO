@@ -10,8 +10,10 @@
 # Python
 __pycache__/
 *.py[cod]
+*.egg-info/
 .venv/
 venv/
+.uv-cache/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
@@ -39,8 +41,12 @@ temp/
 data/raw/
 data/interim/
 data/processed/
+data/normalized/
+data/features/
 data/holdout/
 
 # Generated binary research artifacts
 artifacts/
 models/
+experiments/registry.jsonl
+experiments/runs/
