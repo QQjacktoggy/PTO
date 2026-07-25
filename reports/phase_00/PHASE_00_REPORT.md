@@ -2,10 +2,10 @@
 
 ## Gate status
 
-**IN_PROGRESS — final result PENDING**
+**PASS — local Phase 0 gate completed**
 
-Phase 0 has not yet passed. This report is a working evidence record and must
-not be interpreted as proof that the repository is ready for Phase 1.
+The required local governance gate passed. Remote CI confirmation remains
+pending and must be green before Phase 1 begins.
 
 ## Objective
 
@@ -25,22 +25,22 @@ repeatable quality checks required by the project plan.
 
 | Check | Required command or evidence | Status | Exact outcome |
 |---|---|---|---|
-| Install | `python -m pip install -e ".[dev]"` | PENDING | Not yet recorded |
-| Config validation | `make validate-config` | PENDING | Not yet recorded |
-| Lint/format | `make lint` | PENDING | Not yet recorded |
-| Type checking | `make typecheck` | PENDING | Not yet recorded |
-| Tests | `make test` | PENDING | Not yet recorded |
-| Holdout denial | Automated test proving default denial | PENDING | Not yet recorded |
-| Determinism/versioning | Seed and run-version evidence | PENDING | Not yet recorded |
-| CI | GitHub Actions Python 3.11 quality gate | PENDING | Not yet run |
+| Install | `make setup` | PASS | Locked `uv` environment synchronized |
+| Config validation | `make validate-config` | PASS | All seven YAML files and cross-file contracts valid |
+| Lint/format | `make lint` | PASS | Ruff check passed; 24 files formatted |
+| Type checking | `make typecheck` | PASS | Strict mypy: 18 source files, zero issues |
+| Tests | `make test` | PASS | 32 passed in 0.52 seconds |
+| Holdout denial | Automated default-denial tests | PASS | Missing flag/manifest, tampering, and redacted audit covered |
+| Determinism/versioning | Config hash, lock, registry, manifest tests | PASS | Config hash `c4b9ffcd...00f37`; implementation commit `5d523a4` |
+| CI | GitHub Actions Python 3.11 quality gate | PENDING | Runs after branch push |
 
 ## Artifacts
 
 - Governance and configuration contracts: present in the repository.
-- Python scaffold and validation implementation: in progress.
+- Python scaffold and validation implementation: complete.
 - Machine-readable gate: `reports/phase_00/gate.json`.
 - Data governance boundary: `data/README.md`.
-- Phase commit: pending.
+- Implementation commit: `5d523a4f1d218d610386c244aef7cd8fcad484a8`.
 
 ## Data and holdout state
 
@@ -49,14 +49,29 @@ repeatable quality checks required by the project plan.
 - Holdout opened: **No**.
 - Holdout state: **SEALED**.
 
-## Blockers
+## Evidence details
 
-The full validation suite has not yet completed and no Phase 0 commit has been
-recorded. Therefore the gate must remain pending.
+- Project package: `pto-quant 0.1.0`.
+- Locked environment: `uv.lock`.
+- PyYAML: `6.0.3`.
+- jsonschema: `4.26.0`.
+- Ruff: `0.16.0`.
+- mypy: `1.20.2`.
+- pytest: `8.4.2`.
+- Governed config hash:
+  `c4b9ffcd0e6a0667da694ec76b75f233969f1fd4694b379f7390e80558c00f37`.
+- Holdout coordinates are absent from normal CLI output and denial messages.
+- No market data was downloaded and no strategy code was implemented.
+
+## Known limitations
+
+- The remote Python 3.11 CI run is pending until this branch is pushed.
+- Filesystem append-only behavior is enforced by the application contract; an
+  operating-system administrator can still alter local files.
+- Phase 0 validates governance and reproducibility only, not market-data
+  availability, execution correctness, or profitability.
 
 ## Next allowed action
 
-Complete the Phase 0 implementation, execute every required check, record exact
-outcomes and hashes, and update this report plus `gate.json` and `STATUS.md`.
-Phase 1 may begin only after all required checks pass and the Phase 0 work is
-committed.
+Push the Phase 0 branch and confirm GitHub Actions reproduces the gate on
+Python 3.11. Only then may Phase 1 public-data acquisition and QA begin.

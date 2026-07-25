@@ -3,18 +3,18 @@
   "project": "ETHUSDC_ADAPTIVE_MULTI_LANE_V2",
   "phase": 0,
   "phase_name": "Governance and scaffold",
-  "status": "IN_PROGRESS",
-  "gate": "PENDING",
-  "updated_at_utc": null,
+  "status": "COMPLETE",
+  "gate": "PASS",
+  "updated_at_utc": "2026-07-25T02:50:38Z",
   "git": {
     "base_sha": "20654e1",
-    "phase_commit_sha": null,
-    "working_tree_clean": false
+    "phase_commit_sha": "5d523a4f1d218d610386c244aef7cd8fcad484a8",
+    "working_tree_clean": true
   },
   "holdout": {
     "state": "SEALED",
     "access_attempted": false,
-    "default_denial_test": "PENDING"
+    "default_denial_test": "PASS"
   },
   "market_data": {
     "downloaded_in_phase": false,
@@ -22,34 +22,34 @@
   },
   "checks": {
     "install": {
-      "status": "PENDING",
-      "command": "python -m pip install -e \".[dev]\"",
-      "exit_code": null,
-      "summary": null
+      "status": "PASS",
+      "command": "make setup",
+      "exit_code": 0,
+      "summary": "Locked uv environment synchronized."
     },
     "config_validation": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "make validate-config",
-      "exit_code": null,
-      "summary": null
+      "exit_code": 0,
+      "summary": "Seven YAML configs, decision schema, and cross-file references valid."
     },
     "lint": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "make lint",
-      "exit_code": null,
-      "summary": null
+      "exit_code": 0,
+      "summary": "Ruff check and format passed for 24 files."
     },
     "typecheck": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "make typecheck",
-      "exit_code": null,
-      "summary": null
+      "exit_code": 0,
+      "summary": "Strict mypy passed for 18 source files."
     },
     "pytest": {
-      "status": "PENDING",
+      "status": "PASS",
       "command": "make test",
-      "exit_code": null,
-      "summary": null
+      "exit_code": 0,
+      "summary": "32 tests passed in 0.52 seconds."
     },
     "ci": {
       "status": "PENDING",
@@ -64,8 +64,7 @@
     "data_governance": "data/README.md"
   },
   "blockers": [
-    "Phase 0 implementation and validation suite have not completed.",
-    "Phase-level commit has not been recorded."
+    "Remote GitHub Actions confirmation is pending."
   ],
-  "next_allowed_action": "Complete and record Phase 0 validation; do not start Phase 1."
+  "next_allowed_action": "Push the Phase 0 branch and confirm remote CI; do not start Phase 1 before it is green."
 }
