@@ -14,7 +14,7 @@
     "ETHUSDC_funding": "27fba41eccbcd28ced67f54c440a9038698194212f4333beac6f2558d7793d46"
   },
   "evidence_manifest_count": 86,
-  "git_sha": "8981abea9f60191843232fe426daeb97bf2a4e65",
+  "git_sha": "d1dfd9935b5daf4f4e2a6d971afa4b9a30810154",
   "package_versions": {
     "PyYAML": "6.0.3",
     "jsonschema": "4.26.0",
