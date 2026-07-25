@@ -1,4 +1,4 @@
-"""Command-line entry point for Phase 0 governance operations."""
+"""Command-line entry point for governed PTO research operations."""
 
 from __future__ import annotations
 
@@ -7,8 +7,18 @@ import json
 import sys
 from collections.abc import Sequence
 from dataclasses import asdict
+from datetime import UTC, datetime
+from pathlib import Path
 
 from pto_quant.config import ConfigValidationError, load_config
+from pto_quant.data.client import BinancePublicClient, PublicDataError
+from pto_quant.data.pipeline import (
+    acquire_symbol,
+    acquire_symbol_vision,
+    git_sha,
+    validate_symbol,
+)
+from pto_quant.data.vision import BinanceVisionClient, months_between
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -24,7 +34,34 @@ def _parser() -> argparse.ArgumentParser:
     project_commands = project.add_subparsers(dest="project_command", required=True)
     info = project_commands.add_parser("info", help="print validated project information")
     info.add_argument("--config-dir", default="config")
+
+    data = commands.add_parser("data", help="Phase 1 public-data operations")
+    data_commands = data.add_subparsers(dest="data_command", required=True)
+    acquire = data_commands.add_parser("acquire", help="download and normalize bounded public data")
+    acquire.add_argument("--config-dir", default="config")
+    acquire.add_argument("--root", default=".")
+    acquire.add_argument("--symbol", action="append", dest="symbols")
+    acquire.add_argument("--start", required=True, help="inclusive UTC timestamp")
+    acquire.add_argument("--end", required=True, help="inclusive UTC timestamp")
+    acquire.add_argument("--base-url", default="https://fapi.binance.com")
+    acquire.add_argument(
+        "--transport",
+        choices=("rest", "vision"),
+        default="rest",
+        help="public historical-data transport",
+    )
+    validate_data = data_commands.add_parser("validate", help="fail on critical normalized defects")
+    validate_data.add_argument("--config-dir", default="config")
+    validate_data.add_argument("--root", default=".")
+    validate_data.add_argument("--symbol", action="append", dest="symbols")
     return parser
+
+
+def _timestamp_ms(value: str) -> int:
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if parsed.tzinfo is None:
+        raise ValueError("timestamps must include a timezone")
+    return int(parsed.astimezone(UTC).timestamp() * 1000)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -43,6 +80,65 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.command == "project" and args.project_command == "info":
         print(json.dumps(asdict(bundle.project), indent=2, sort_keys=True))
         return 0
+    configured_symbols = (
+        bundle.markets.primary_symbol,
+        *bundle.markets.generalization_symbols,
+    )
+    if args.command == "data" and args.data_command == "acquire":
+        try:
+            start_ms = _timestamp_ms(args.start)
+            end_ms = _timestamp_ms(args.end)
+            if end_ms < start_ms:
+                raise ValueError("--end must be at or after --start")
+            root = Path(args.root).resolve()
+            revision = git_sha(root)
+            if args.transport == "vision":
+                vision_client = BinanceVisionClient(
+                    args.base_url
+                    if args.base_url != "https://fapi.binance.com"
+                    else "https://data.binance.vision"
+                )
+                months = months_between(start_ms, end_ms)
+                results = [
+                    acquire_symbol_vision(
+                        vision_client,
+                        root=root,
+                        symbol=symbol,
+                        months=months,
+                        start_ms=start_ms,
+                        end_ms=end_ms,
+                        config_hash=bundle.project.config_hash,
+                        revision=revision,
+                    )
+                    for symbol in (args.symbols or configured_symbols)
+                ]
+            else:
+                rest_client = BinancePublicClient(args.base_url)
+                results = [
+                    acquire_symbol(
+                        rest_client,
+                        root=root,
+                        symbol=symbol,
+                        start_ms=start_ms,
+                        end_ms=end_ms,
+                        config_hash=bundle.project.config_hash,
+                        revision=revision,
+                    )
+                    for symbol in (args.symbols or configured_symbols)
+                ]
+        except (OSError, ValueError, PublicDataError) as exc:
+            print(f"data acquisition failed: {exc}", file=sys.stderr)
+            return 2
+        print(json.dumps(results, indent=2, sort_keys=True))
+        return 0
+    if args.command == "data" and args.data_command == "validate":
+        root = Path(args.root).resolve()
+        validation_results = {
+            symbol: validate_symbol(root, symbol).to_dict()
+            for symbol in (args.symbols or configured_symbols)
+        }
+        print(json.dumps(validation_results, indent=2, sort_keys=True))
+        return 2 if any(result["critical_count"] for result in validation_results.values()) else 0
     return 2
 
 

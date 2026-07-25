@@ -1,4 +1,4 @@
-.PHONY: setup lint typecheck test validate-config project-info phase0 data-download data-validate features-build replay-test holdout-freeze holdout-run report-final
+.PHONY: setup lint typecheck test validate-config project-info phase0 phase1 data-download data-validate features-build replay-test holdout-freeze holdout-run report-final
 
 UV_CACHE_DIR ?= .uv-cache
 export UV_CACHE_DIR
@@ -25,10 +25,13 @@ project-info:
 phase0: validate-config lint typecheck test
 
 data-download:
-	@echo "Phase 1 command is not implemented in Phase 0" >&2; exit 2
+	@test -n "$(START)" -a -n "$(END)" || (echo "usage: make data-download START=<UTC> END=<UTC>" >&2; exit 2)
+	uv run pto data acquire --start "$(START)" --end "$(END)"
 
 data-validate:
-	@echo "Phase 1 command is not implemented in Phase 0" >&2; exit 2
+	uv run pto data validate
+
+phase1: validate-config lint typecheck test
 
 features-build:
 	@echo "Phase 2 command is not implemented in Phase 0" >&2; exit 2

@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "project": "ETHUSDC_ADAPTIVE_MULTI_LANE_V2",
+  "phase": 1,
+  "phase_name": "Data acquisition and QA",
+  "status": "COMPLETE",
+  "gate": "PASS",
+  "updated_at_utc": "2026-07-25T06:33:02Z",
+  "git": {
+    "base_sha": "a83b47b",
+    "implementation_sha": "f5ded0a234f2449ecc11fb6fef3948a083f154db"
+  },
+  "holdout": {
+    "state": "SEALED",
+    "access_attempted": false,
+    "latest_market_timestamp_read": "2025-06-30T23:59:00Z"
+  },
+  "checks": {
+    "config_validation": {"status": "PASS", "exit_code": 0},
+    "lint": {"status": "PASS", "exit_code": 0, "files": 32},
+    "format": {"status": "PASS", "exit_code": 0, "files": 32},
+    "typecheck": {"status": "PASS", "exit_code": 0, "source_files": 25},
+    "pytest": {"status": "PASS", "exit_code": 0, "passed": 42},
+    "real_data_acquisition": {
+      "status": "PASS",
+      "exit_code": 0,
+      "transport": "binance_vision",
+      "checksum_verified_archives": 72,
+      "symbols": ["ETHUSDC", "BTCUSDC"],
+      "range": ["2024-01-05T00:00:00Z", "2025-06-30T23:59:59.999Z"],
+      "complete_calendar_days": 543
+    },
+    "real_data_validation": {
+      "status": "PASS",
+      "exit_code": 0,
+      "critical_count": 0
+    }
+  },
+  "market_data": {
+    "fixture_used_as_market_evidence": false,
+    "ETHUSDC": {
+      "rows_1m": 781920,
+      "rows_funding": 1629,
+      "rows_5m": 156384,
+      "rows_15m": 52128,
+      "rows_1h": 13032,
+      "critical_qa_count": 0,
+      "sha256_1m": "94d75c471ba66a75c3db5d128c2c96e22e61e4e68e85689fe712259e7a8ee78a"
+    },
+    "BTCUSDC": {
+      "rows_1m": 781920,
+      "rows_funding": 1629,
+      "rows_5m": 156384,
+      "rows_15m": 52128,
+      "rows_1h": 13032,
+      "critical_qa_count": 0,
+      "sha256_1m": "1223cb858df6ad59114adaa6fe6b7549bd1b2eba020f4a8a1fce7ba3326c78a5"
+    }
+  },
+  "blockers": [],
+  "next_allowed_action": "Begin Phase 2 replay-engine implementation using the frozen Phase 1 dataset boundary."
+}

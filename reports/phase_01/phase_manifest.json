@@ -1,0 +1,29 @@
+{
+  "artifact_hashes": {
+    "gate": "28e41451f4b03052bfbc35c41bd00aab40135a162a7ebbe90afbd2c36b6d88e9",
+    "lockfile": "e2296ac88b451e9dc343370585268bb6b010ab7d7dafc122c5b973d87b5ab884",
+    "phase_report": "97202a033a0143df4d904e0ed06c292a4644bcaa9ff67cb2cdca74a300351ba2",
+    "status": "d17b3ee5499b7e8fb951d647e440ab3dc96513f9ccfc5af152b2c749491d3198"
+  },
+  "config_hash": "c4b9ffcd0e6a0667da694ec76b75f233969f1fd4694b379f7390e80558c00f37",
+  "created_at": "2026-07-25T06:33:02Z",
+  "data_hashes": {
+    "ETHUSDC_1m": "94d75c471ba66a75c3db5d128c2c96e22e61e4e68e85689fe712259e7a8ee78a",
+    "ETHUSDC_funding": "27fba41eccbcd28ced67f54c440a9038698194212f4333beac6f2558d7793d46",
+    "BTCUSDC_1m": "1223cb858df6ad59114adaa6fe6b7549bd1b2eba020f4a8a1fce7ba3326c78a5",
+    "BTCUSDC_funding": "54b7bd9d72f58ff74448db5ec001d419df0af8829442abfbaff6d0554bfcf7c4"
+  },
+  "git_sha": "f5ded0a234f2449ecc11fb6fef3948a083f154db",
+  "package_versions": {
+    "PyYAML": "6.0.3",
+    "jsonschema": "4.26.0",
+    "mypy": "1.20.2",
+    "pto-quant": "0.1.0",
+    "pytest": "8.4.2",
+    "python": "3.12.13",
+    "ruff": "0.16.0"
+  },
+  "run_id": "phase-01-f5ded0a-pass",
+  "schema_version": 1,
+  "seed": 20260725
+}

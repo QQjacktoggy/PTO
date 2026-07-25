@@ -44,6 +44,7 @@ data/processed/
 data/normalized/
 data/features/
 data/holdout/
+data/manifests/
 
 # Generated binary research artifacts
 artifacts/
