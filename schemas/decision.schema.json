@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Final Adaptive Research Decision",
+  "type": "object",
+  "required": [
+    "project_version",
+    "label",
+    "failure_codes",
+    "primary_metrics",
+    "limitations",
+    "artifact_hashes"
+  ],
+  "properties": {
+    "project_version": {
+      "type": "string"
+    },
+    "label": {
+      "enum": [
+        "PASS_STRETCH",
+        "PASS_TARGET_B",
+        "PASS_TARGET_A",
+        "PASS_SURVIVAL",
+        "PASS_ADAPTIVE_EV_ONLY",
+        "NO_ADAPTIVE_SYSTEM_PASSED",
+        "INSUFFICIENT_HISTORY",
+        "BLOCKED_BY_DATA_OR_ENGINE"
+      ]
+    },
+    "failure_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data_range": {
+      "type": "object"
+    },
+    "holdout_range": {
+      "type": "object"
+    },
+    "primary_metrics": {
+      "type": "object"
+    },
+    "daily_target_metrics": {
+      "type": "object"
+    },
+    "stress_metrics": {
+      "type": "object"
+    },
+    "generalization_metrics": {
+      "type": "object"
+    },
+    "selected_components": {
+      "type": "array"
+    },
+    "retired_components": {
+      "type": "array"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "artifact_hashes": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

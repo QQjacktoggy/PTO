@@ -1,0 +1,40 @@
+.PHONY: setup lint typecheck test validate-config phase0 data-download data-validate features-build replay-test holdout-freeze holdout-run report-final
+
+setup:
+	python -m pip install -e ".[dev]"
+
+lint:
+	ruff check src tests
+	ruff format --check src tests
+
+typecheck:
+	mypy src
+
+test:
+	pytest -q
+
+validate-config:
+	python -m src.cli.main config validate --config-dir config
+
+phase0: validate-config lint typecheck test
+
+data-download:
+	python -m src.cli.main data download --symbol ETHUSDC
+
+data-validate:
+	python -m src.cli.main data validate --symbol ETHUSDC
+
+features-build:
+	python -m src.cli.main features build --symbol ETHUSDC
+
+replay-test:
+	python -m src.cli.main replay run --fixture tests/fixtures/replay_small.parquet
+
+holdout-freeze:
+	python -m src.cli.main holdout freeze
+
+holdout-run:
+	python -m src.cli.main holdout run --require-frozen-manifest
+
+report-final:
+	python -m src.cli.main report final

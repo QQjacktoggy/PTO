@@ -1,0 +1,210 @@
+{
+  "package": "adaptive_crypto_quant_work_handoff",
+  "version": "2.0.0",
+  "created_date": "2026-07-25",
+  "primary_symbol": "ETHUSDC",
+  "generalization_symbol": "BTCUSDC",
+  "initial_equity_usdc": 200,
+  "files": [
+    {
+      "path": "ADAPTIVE_QUANT_MASTER_PLAN.md",
+      "size_bytes": 44323,
+      "sha256": "81e0e6b41ec28e1f4884fb090824dc714d996c39569597073f255d12bba35122"
+    },
+    {
+      "path": "AGENTS.md",
+      "size_bytes": 4303,
+      "sha256": "ac6c8fe28bb2428348bc40404caafac0e3df543c1d74d42ab88e1bd2b2529607"
+    },
+    {
+      "path": "README_START_HERE.md",
+      "size_bytes": 2972,
+      "sha256": "82ef43cd7d0e48dae3c052d9ad455712238527c9de528414b573ef35cc4d4be7"
+    },
+    {
+      "path": "STATUS_TEMPLATE.md",
+      "size_bytes": 1430,
+      "sha256": "9d486ca8614b5670f926f6bcf0986ee7db21686956b3da56437fefc1b0bd5c2e"
+    },
+    {
+      "path": "WORK_MASTER_PROMPT.md",
+      "size_bytes": 2829,
+      "sha256": "3c0c23c4230fa3c207a171651f15ab670944f85caf8ffe009ca3e4e4ee8ddf45"
+    },
+    {
+      "path": "config/acceptance.yaml",
+      "size_bytes": 2867,
+      "sha256": "02c3e389ee98009f1ebae22d97c8d3ada5082cc95ed868be96d817db658503ed"
+    },
+    {
+      "path": "config/adaptive_policy.yaml",
+      "size_bytes": 1728,
+      "sha256": "15ff1757bdf94400c0e0eb361038409295e69fe3697f79a695ced8a8003835fd"
+    },
+    {
+      "path": "config/entry_exit_profiles.yaml",
+      "size_bytes": 3216,
+      "sha256": "6b32c12d27dbab6e47c0c54f82facf0648d3b0ffed9c66f8bd292ba59c6e2818"
+    },
+    {
+      "path": "config/lanes.yaml",
+      "size_bytes": 3141,
+      "sha256": "6172907dbdc5e93acc0a68a63e32557a7ea6c961a7f738e8147428bee14e615d"
+    },
+    {
+      "path": "config/regimes.yaml",
+      "size_bytes": 2323,
+      "sha256": "091c587a168d14c02b9c200d2eb120f881abd65de0e23a7a0359d6f4dc282518"
+    },
+    {
+      "path": "config/research.yaml",
+      "size_bytes": 1539,
+      "sha256": "dba344ca20bba2781803e1fe592c809f14f4be424337a621892bf39741b063eb"
+    },
+    {
+      "path": "config/risk_targets.yaml",
+      "size_bytes": 1056,
+      "sha256": "3d54e119de758ac50e745f36904e1692e92eb22e50e1e545001b33308ff44914"
+    },
+    {
+      "path": "docs/00_PROJECT_CHARTER.md",
+      "size_bytes": 2967,
+      "sha256": "8dc1e1b226763092db10ba1404b3c722e40e0190f7470e0121e4897df0416e74"
+    },
+    {
+      "path": "docs/01_ARCHITECTURE.md",
+      "size_bytes": 4004,
+      "sha256": "aa0c700e9455832e2167439f81b20f63098dda1cd0ade54a7743f32aeb803726"
+    },
+    {
+      "path": "docs/02_DATA_EXECUTION_VALIDATION.md",
+      "size_bytes": 4231,
+      "sha256": "3bbb50b1ae0ca45598b3717bbf50731dd577b564971fe15e15189c881ec8fbb8"
+    },
+    {
+      "path": "docs/03_LANE_LIBRARY.md",
+      "size_bytes": 4767,
+      "sha256": "7a13ed6b1282dcc86474667f8a5684d52588671bbaa10c87f1a42266918d4b3a"
+    },
+    {
+      "path": "docs/04_ENTRY_EXIT_TRADE_MANAGEMENT.md",
+      "size_bytes": 5651,
+      "sha256": "90393cc9ee638f435ed3ae58dd6267efbf037561b54bf76e149eb1a4c96b7aa1"
+    },
+    {
+      "path": "docs/05_REGIME_META_ADAPTIVE.md",
+      "size_bytes": 4440,
+      "sha256": "53ee6ebb0dd75e39bd005e59f0abdc6b4be4ba7c5a35d77f9868d1b401b435fb"
+    },
+    {
+      "path": "docs/06_RISK_LEVERAGE_TARGETS.md",
+      "size_bytes": 3357,
+      "sha256": "468c7bc1469585ceb181ef9de96f66eb65507a85b0f3973829dc3705a5e1cfa0"
+    },
+    {
+      "path": "docs/07_PHASE_EXECUTION_PLAN.md",
+      "size_bytes": 6494,
+      "sha256": "3d92081ab22162be7e4a37944dc482f1d6404486be4df9416064140a72927de9"
+    },
+    {
+      "path": "docs/08_ACCEPTANCE_STRESS_HOLDOUT.md",
+      "size_bytes": 3513,
+      "sha256": "c7ea920ecc81dbcd82fcdd5a430fab805b162f1846ad39780e19d4e84dfd4fa9"
+    },
+    {
+      "path": "docs/09_REPORTING_AND_HANDOFF.md",
+      "size_bytes": 2246,
+      "sha256": "e8d6a046207ea0ec3f15018efa972b6596365a848d4dab03887aade8dc9d400b"
+    },
+    {
+      "path": "docs/10_DECISION_AND_LEDGER_CONTRACTS.md",
+      "size_bytes": 2292,
+      "sha256": "12d30e0973d321191d210c524c5bca3972bd88731ece2f085038786245705261"
+    },
+    {
+      "path": "prompts/PHASE_00_PROMPT.md",
+      "size_bytes": 1632,
+      "sha256": "8db4a334dbd248d2dec36e39aaaea11195339783efe8d58d26a259cc73f6b5a3"
+    },
+    {
+      "path": "prompts/PHASE_01_PROMPT.md",
+      "size_bytes": 1522,
+      "sha256": "af8ca8d28de24513245af3fcbcb082c3073f9526fc5a39e2400cb63246347d24"
+    },
+    {
+      "path": "prompts/PHASE_02_PROMPT.md",
+      "size_bytes": 1541,
+      "sha256": "2477177b74fb30ab9adc292d76146ac283423a2710167cf316a03ff00f187d07"
+    },
+    {
+      "path": "prompts/PHASE_03_PROMPT.md",
+      "size_bytes": 1268,
+      "sha256": "615dc92aabfaf10461659e24e8ae7c6ca0de15b2d39c68d03129c2cc892ebd22"
+    },
+    {
+      "path": "prompts/PHASE_04_PROMPT.md",
+      "size_bytes": 1280,
+      "sha256": "e66ef470d3469e8da02b1205ed55fc0d56cca3a57d8d26e7d8b9903a827fdea6"
+    },
+    {
+      "path": "prompts/PHASE_05_PROMPT.md",
+      "size_bytes": 1236,
+      "sha256": "82770abd11223a4d9c1346a5ccaa6f03f69c5df12182169f6f03dbf063d49098"
+    },
+    {
+      "path": "prompts/PHASE_06_PROMPT.md",
+      "size_bytes": 1333,
+      "sha256": "5e841a55e846e33b9dfe36ab2eb2f23097ca927dbe95a90d5d4d1cd601ef689a"
+    },
+    {
+      "path": "prompts/PHASE_07_PROMPT.md",
+      "size_bytes": 1305,
+      "sha256": "3bf92e37c691866034708baa0f0d47b151cd58c750a5364852248ea3429c9adc"
+    },
+    {
+      "path": "prompts/PHASE_08_PROMPT.md",
+      "size_bytes": 1322,
+      "sha256": "f1336b375e9e9f624ab73e1a53546f49e94f2425fdfda0a3aa88cd481559b9f1"
+    },
+    {
+      "path": "prompts/PHASE_09_PROMPT.md",
+      "size_bytes": 1349,
+      "sha256": "f5c27aa626f45df678d1378a62c3f5af34327565cbc625f0fad45c41add4f0b0"
+    },
+    {
+      "path": "prompts/PHASE_10_PROMPT.md",
+      "size_bytes": 1410,
+      "sha256": "a7a37dfb132bfc49226c44e59a93354efd66684bc4947582da1edf55e9d63929"
+    },
+    {
+      "path": "prompts/PHASE_11_PROMPT.md",
+      "size_bytes": 1319,
+      "sha256": "48c218e7a3330e54192795734a005c59d623032cee1659aa65dfc6c8ed41837b"
+    },
+    {
+      "path": "prompts/PHASE_12_PROMPT.md",
+      "size_bytes": 1320,
+      "sha256": "7a16bd96dc3579f701db42668e05b689ef0f362c242d14e50e8db858f2494a5b"
+    },
+    {
+      "path": "prompts/PHASE_13_PROMPT.md",
+      "size_bytes": 1267,
+      "sha256": "27ef3be730ec8fecac28052a3b82fffcfa5f3549ed96a594efd359fa44662497"
+    },
+    {
+      "path": "prompts/PHASE_14_PROMPT.md",
+      "size_bytes": 1358,
+      "sha256": "f6c7841a4fbdc48427219c19384c08b28c7e8935f30ed21d4f03b61b77985349"
+    },
+    {
+      "path": "schemas/decision.schema.json",
+      "size_bytes": 1373,
+      "sha256": "facf6fc3d90d647ee8e20641c42ec114ac04c2fd3c6c94b28b0c0ba0bcbd29f6"
+    },
+    {
+      "path": "templates/Makefile.template",
+      "size_bytes": 912,
+      "sha256": "97af216eebd14956c2ab6b2ecb42787a6bbccf832e485e624909e0c01385647c"
+    }
+  ]
+}

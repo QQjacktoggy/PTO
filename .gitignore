@@ -1,0 +1,46 @@
+# Credentials and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# Large/local research data and databases
+*.parquet
+*.feather
+*.arrow
+*.duckdb
+*.sqlite
+*.sqlite3
+data/raw/
+data/interim/
+data/processed/
+data/holdout/
+
+# Generated binary research artifacts
+artifacts/
+models/

@@ -1,0 +1,76 @@
+lane_states:
+  - ACTIVE
+  - REDUCED
+  - SHADOW
+  - DISABLED
+  - RETIRED
+
+lanes:
+  L0_NO_TRADE:
+    enabled: true
+    official_no_trade_lane: true
+  L1_TREND_PULLBACK:
+    status_initial: SHADOW
+    directions: [LONG, SHORT]
+    expected_regimes: [TREND_UP, TREND_DOWN]
+    entry_candidates: [E0_BASELINE_MAKER, E2_CONSERVATIVE_MAKER, E4_CLOSE_CONFIRMATION]
+    stop_candidates: [S1_ATR, S3_HYBRID]
+    profit_candidates: [P0_FIXED_R, P1_PARTIAL_PLUS_RUNNER]
+    trail_candidates: [T0_NONE, T2_CHANDELIER, T3_MFE_GIVEBACK]
+    emergency_candidates: [R1_ADVERSE_VELOCITY, R3_REGIME_FLIP]
+  L2_BREAKOUT_RETEST:
+    status_initial: SHADOW
+    directions: [LONG, SHORT]
+    expected_regimes: [COMPRESSION, EXPANSION_UP, EXPANSION_DOWN, TREND_UP, TREND_DOWN]
+    entry_candidates: [E0_BASELINE_MAKER, E1_AGGRESSIVE_MAKER, E4_CLOSE_CONFIRMATION]
+    stop_candidates: [S2_STRUCTURE, S3_HYBRID]
+    profit_candidates: [P0_FIXED_R, P1_PARTIAL_PLUS_RUNNER]
+    trail_candidates: [T2_CHANDELIER, T3_MFE_GIVEBACK]
+    emergency_candidates: [R0_OPPOSITE_IMPULSE, R3_REGIME_FLIP]
+  L3_RANGE_MEAN_REVERSION:
+    status_initial: SHADOW
+    directions: [LONG, SHORT]
+    expected_regimes: [RANGE]
+    entry_candidates: [E2_CONSERVATIVE_MAKER, E3_SECOND_TOUCH]
+    stop_candidates: [S2_STRUCTURE, S3_HYBRID]
+    profit_candidates: [P0_FIXED_R]
+    trail_candidates: [T0_NONE]
+    emergency_candidates: [R2_NO_BOUNCE, R3_REGIME_FLIP]
+  L4_VOLATILITY_EXPANSION:
+    status_initial: SHADOW
+    directions: [LONG, SHORT]
+    expected_regimes: [COMPRESSION, EXPANSION_UP, EXPANSION_DOWN]
+    entry_candidates: [E1_AGGRESSIVE_MAKER, E4_CLOSE_CONFIRMATION]
+    stop_candidates: [S1_ATR, S3_HYBRID]
+    profit_candidates: [P1_PARTIAL_PLUS_RUNNER, P2_REGIME_TARGET]
+    trail_candidates: [T2_CHANDELIER, T3_MFE_GIVEBACK]
+    emergency_candidates: [R0_OPPOSITE_IMPULSE, R1_ADVERSE_VELOCITY]
+  L5_EXHAUSTION_REVERSAL:
+    status_initial: SHADOW
+    directions: [LONG, SHORT]
+    expected_regimes: [TREND_UP, TREND_DOWN, EXPANSION_UP, EXPANSION_DOWN, RANGE]
+    entry_candidates: [E3_SECOND_TOUCH, E4_CLOSE_CONFIRMATION]
+    stop_candidates: [S2_STRUCTURE, S3_HYBRID]
+    profit_candidates: [P0_FIXED_R, P1_PARTIAL_PLUS_RUNNER]
+    trail_candidates: [T0_NONE, T5_TIME_DECAYING]
+    emergency_candidates: [R4_OPPOSITE_LANE_CONFIRMATION, R5_MFE_FAILURE]
+  L6_LIQUIDITY_SWEEP:
+    status_initial: SHADOW
+    experimental: true
+    directions: [LONG, SHORT]
+    expected_regimes: [RANGE, TREND_UP, TREND_DOWN]
+    entry_candidates: [E3_SECOND_TOUCH, E4_CLOSE_CONFIRMATION]
+    stop_candidates: [S2_STRUCTURE]
+    profit_candidates: [P0_FIXED_R]
+    trail_candidates: [T0_NONE]
+    emergency_candidates: [R2_NO_BOUNCE, R3_REGIME_FLIP]
+  L7_MICRO_MOMENTUM:
+    status_initial: SHADOW
+    experimental: true
+    directions: [LONG, SHORT]
+    expected_regimes: [EXPANSION_UP, EXPANSION_DOWN, TREND_UP, TREND_DOWN]
+    entry_candidates: [E0_BASELINE_MAKER, E1_AGGRESSIVE_MAKER]
+    stop_candidates: [S0_FIXED_PERCENT, S1_ATR]
+    profit_candidates: [P0_FIXED_R]
+    trail_candidates: [T0_NONE, T5_TIME_DECAYING]
+    emergency_candidates: [R0_OPPOSITE_IMPULSE, R1_ADVERSE_VELOCITY]

@@ -1,0 +1,37 @@
+risk:
+  baseline_risk_per_trade_fraction: 0.005
+  risk_per_trade_candidates: [0.0025, 0.0050, 0.0075, 0.0100]
+  effective_leverage_candidates: [0.25, 0.50, 1.00, 1.50, 2.00, 3.00, 5.00]
+  stress_effective_leverage: [7.50, 10.00]
+  max_effective_leverage_primary: 5.00
+  fixed_notional_baseline_usdc: 50.0
+
+allocation_bands:
+  SHADOW: [0.0, 0.0]
+  LOW: [25.0, 50.0]
+  NORMAL: [75.0, 150.0]
+  HIGH: [150.0, 300.0]
+
+sizing:
+  formula: risk_budget_divided_by_stop_fraction
+  stop_based_cap_overrides_band: true
+  max_notional_by_effective_leverage: true
+  increase_after_loss_allowed: false
+  increase_to_hit_daily_target_allowed: false
+
+portfolio:
+  daily_loss_stop_usdc: -2.0
+  drawdown_reduce_all_usdc: -8.0
+  drawdown_best_lane_only_usdc: -12.0
+  drawdown_hard_disable_usdc: -16.0
+  max_open_positions: 1
+
+daily_targets:
+  calendar_day_average_required: true
+  include_no_trade_days: true
+  survival_usdc: 0.0
+  target_a_usdc: 0.50
+  target_b_usdc: 1.00
+  stretch_usdc: 2.00
+  extreme_scenarios_usdc: [4.00, 6.00]
+  extreme_scenarios_are_pass_gates: false

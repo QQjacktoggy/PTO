@@ -1,0 +1,67 @@
+project:
+  name: ETHUSDC_ADAPTIVE_MULTI_LANE_V2
+  version: "2.0.0"
+  date: "2026-07-25"
+  timezone_storage: UTC
+  timezone_report: Asia/Taipei
+  random_seed: 20260725
+
+scope:
+  historical_only: true
+  testnet_enabled: false
+  live_enabled: false
+  api_key_required: false
+  dca_enabled: false
+  recovery_enabled: false
+  martingale_enabled: false
+  reinforcement_learning_enabled: false
+  unrestricted_online_learning_enabled: false
+
+markets:
+  primary:
+    exchange: binance
+    market_type: usd_m_futures
+    symbol: ETHUSDC
+  generalization:
+    - symbol: BTCUSDC
+      no_symbol_specific_posthoc_tuning: true
+  timeframes:
+    raw_execution: 1m
+    micro_support: 5m
+    signal_decision: 15m
+    higher_regime: 1h
+  minimum_history_days_research: 540
+  desired_history_days_strict: 900
+  exclude_incomplete_utc_day: true
+
+capital:
+  initial_equity_usdc: 200.0
+  max_open_positions: 1
+  max_active_entry_intents: 1
+  daily_realized_net_loss_cap_usdc: -2.0
+  drawdown_reduce_all_usdc: -8.0
+  drawdown_best_lane_only_usdc: -12.0
+  drawdown_hard_disable_usdc: -16.0
+  daily_reset_timezone: UTC
+
+costs:
+  baseline:
+    maker_bps: 0.0
+    taker_bps: 4.0
+    taker_slippage_bps: 1.0
+  include_funding: true
+  missing_funding_policy: flag_and_report
+
+splits:
+  initial_train_months: 12
+  validation_months: 3
+  test_months: 3
+  step_months: 3
+  embargo_days: 7
+  final_holdout_days: 180
+
+governance:
+  final_holdout_sealed: true
+  require_frozen_manifest: true
+  no_post_holdout_retuning_claim: true
+  all_calendar_days_in_daily_average: true

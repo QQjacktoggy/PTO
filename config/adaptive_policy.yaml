@@ -1,0 +1,71 @@
+adaptive:
+  decision_frequency: 15m
+  lane_health_update_frequency: DAILY
+  lane_health_effective_after_completed_trades_only: true
+  unrestricted_online_parameter_search: false
+  no_trade_allowed: true
+
+meta_model:
+  baseline: LogisticRegression
+  challenger: HistGradientBoosting
+  calibration_required: true
+  calibration_data: validation_only
+  p_win_threshold_candidates: [0.60, 0.65, 0.70, 0.75]
+  expected_net_pnl_must_be_positive: true
+  uncertainty_threshold_required: true
+
+lane_health:
+  shrinkage_required: true
+  metrics:
+    - expectancy_20_trades
+    - expectancy_50_trades
+    - expectancy_30_days
+    - regime_specific_expectancy
+    - profit_factor
+    - win_rate
+    - average_win_loss
+    - fill_quality
+    - fee_ratio
+    - mfe_mae
+    - drawdown
+    - losing_streak
+    - fold_stability
+    - stress_sensitivity
+    - sample_size
+    - concentration
+  multiplier_bounds: [0.50, 1.30]
+
+state_actions:
+  ACTIVE:
+    notional_multiplier: 1.00
+    threshold_add: 0.00
+  REDUCED:
+    notional_multiplier: 0.50
+    threshold_add: 0.05
+  SHADOW:
+    notional_multiplier: 0.00
+    threshold_add: 0.00
+  DISABLED:
+    notional_multiplier: 0.00
+    threshold_add: 1.00
+  RETIRED:
+    notional_multiplier: 0.00
+    threshold_add: 1.00
+
+arbitration:
+  same_direction: HIGHEST_FINAL_SCORE
+  opposite_direction: NO_TRADE_IF_SCORE_GAP_BELOW_MARGIN
+  score_gap_candidates: [0.10, 0.20]
+  stacking_allowed: false
+  immediate_reverse_allowed: false
+
+final_score:
+  components:
+    - expected_net_pnl
+    - calibrated_p_win
+    - regime_compatibility
+    - lane_health_multiplier
+    - predicted_fill_probability
+    - uncertainty_discount
+  regime_compatibility_bounds: [0.0, 1.0]
+  uncertainty_discount_bounds: [0.5, 1.0]

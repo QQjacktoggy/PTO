@@ -1,0 +1,83 @@
+regime_ids:
+  - TREND_UP
+  - TREND_DOWN
+  - RANGE
+  - COMPRESSION
+  - EXPANSION_UP
+  - EXPANSION_DOWN
+  - CHAOTIC_HIGH_VOL
+  - QUIET_LOW_VOL
+  - UNKNOWN
+
+baseline:
+  model: RuleBasedRegimeV1
+  update_timeframe: 15m
+  higher_timeframe: 1h
+  persistence_bars: 2
+  unknown_probability_threshold: 0.35
+
+features:
+  - ema_structure
+  - ema_slopes
+  - adx
+  - atr_pct
+  - atr_percentile
+  - bollinger_width
+  - bollinger_width_percentile
+  - realized_volatility
+  - trend_efficiency
+  - rolling_returns
+  - volume_percentile
+  - body_range_ratio
+  - vwap_distance
+  - rolling_high_low_distance
+  - autocorrelation
+  - regime_duration
+
+challenger:
+  enabled_after_baseline: true
+  candidates:
+    - LogisticRegression
+    - HistGradientBoosting
+    - HiddenMarkovModel
+  replacement_requires_oos_improvement: true
+  output_probabilities: true
+  calibration_required: true
+
+static_router:
+  TREND_UP:
+    allow: [L1_TREND_PULLBACK, L2_BREAKOUT_RETEST]
+    shadow: [L4_VOLATILITY_EXPANSION, L5_EXHAUSTION_REVERSAL, L6_LIQUIDITY_SWEEP, L7_MICRO_MOMENTUM]
+    block: [L3_RANGE_MEAN_REVERSION]
+  TREND_DOWN:
+    allow: [L1_TREND_PULLBACK, L2_BREAKOUT_RETEST]
+    shadow: [L4_VOLATILITY_EXPANSION, L5_EXHAUSTION_REVERSAL, L6_LIQUIDITY_SWEEP, L7_MICRO_MOMENTUM]
+    block: [L3_RANGE_MEAN_REVERSION]
+  RANGE:
+    allow: [L3_RANGE_MEAN_REVERSION, L6_LIQUIDITY_SWEEP]
+    shadow: [L5_EXHAUSTION_REVERSAL]
+    block: [L1_TREND_PULLBACK, L4_VOLATILITY_EXPANSION]
+  COMPRESSION:
+    allow: [L4_VOLATILITY_EXPANSION]
+    shadow: [L2_BREAKOUT_RETEST]
+    block: []
+  EXPANSION_UP:
+    allow: [L2_BREAKOUT_RETEST, L4_VOLATILITY_EXPANSION, L7_MICRO_MOMENTUM]
+    shadow: [L1_TREND_PULLBACK, L5_EXHAUSTION_REVERSAL]
+    block: [L3_RANGE_MEAN_REVERSION]
+  EXPANSION_DOWN:
+    allow: [L2_BREAKOUT_RETEST, L4_VOLATILITY_EXPANSION, L7_MICRO_MOMENTUM]
+    shadow: [L1_TREND_PULLBACK, L5_EXHAUSTION_REVERSAL]
+    block: [L3_RANGE_MEAN_REVERSION]
+  CHAOTIC_HIGH_VOL:
+    allow: [L0_NO_TRADE]
+    shadow: []
+    block: [L1_TREND_PULLBACK, L2_BREAKOUT_RETEST, L3_RANGE_MEAN_REVERSION, L4_VOLATILITY_EXPANSION, L5_EXHAUSTION_REVERSAL, L6_LIQUIDITY_SWEEP, L7_MICRO_MOMENTUM]
+  QUIET_LOW_VOL:
+    allow: [L0_NO_TRADE]
+    shadow: [L3_RANGE_MEAN_REVERSION, L4_VOLATILITY_EXPANSION]
+    block: []
+  UNKNOWN:
+    allow: [L0_NO_TRADE]
+    shadow: []
+    block: []

@@ -1,0 +1,121 @@
+entry_profiles:
+  E0_BASELINE_MAKER:
+    offset_bps: [1.0]
+    ttl_minutes: [5]
+    max_reprices: 0
+    market_chase: false
+  E1_AGGRESSIVE_MAKER:
+    offset_bps: [0.0]
+    ttl_minutes: [3]
+    max_reprices: 0
+    market_chase: false
+  E2_CONSERVATIVE_MAKER:
+    offset_bps: [2.0, 3.0]
+    ttl_minutes: [5, 10]
+    max_reprices: 0
+    market_chase: false
+  E3_SECOND_TOUCH:
+    require_move_away: true
+    confirmation_required: true
+    centered_pivot_allowed: false
+  E4_CLOSE_CONFIRMATION:
+    confirmation_bars_15m: [1]
+    recheck_regime: true
+    recheck_extension: true
+  E5_ONE_REPRICE:
+    base_offset_bps: [1.0]
+    ttl_minutes: [5]
+    max_reprices: 1
+    max_chase_bps: [3.0]
+    market_chase: false
+
+stop_profiles:
+  S0_FIXED_PERCENT:
+    stop_pct: [0.0025, 0.0030, 0.0035, 0.0040, 0.0050]
+  S1_ATR:
+    atr_multiple: [0.6, 0.8, 1.0, 1.2]
+    min_stop_pct: 0.0025
+    max_stop_pct: 0.0060
+  S2_STRUCTURE:
+    backward_looking_only: true
+    centered_pivot_allowed: false
+    buffer_ticks: [1, 2]
+  S3_HYBRID:
+    structure_required: true
+    atr_maximum_risk_clamp: true
+
+profit_profiles:
+  P0_FIXED_R:
+    r_multiple: [0.50, 0.65, 0.80, 1.00, 1.25, 1.50]
+  P1_PARTIAL_PLUS_RUNNER:
+    candidates:
+      - first_exit_fraction: 0.50
+        first_exit_r: 0.60
+      - first_exit_fraction: 0.40
+        first_exit_r: 0.80
+  P2_REGIME_TARGET:
+    range_shorter: true
+    trend_longer_or_trail: true
+    expansion_protect_and_run: true
+
+break_even:
+  enabled_candidates: [false, true]
+  trigger_r: [0.35, 0.50, 0.65, 0.80]
+  include_entry_fee: true
+  include_expected_exit_fee: true
+  slippage_buffer_bps: [1.0, 2.0]
+  activation: [NEXT_MINUTE, COMPLETED_CLOSE_CONFIRMATION]
+
+trail_profiles:
+  T0_NONE: {}
+  T1_ATR_TRAIL:
+    atr_multiple: [0.6, 0.8, 1.0]
+  T2_CHANDELIER:
+    atr_multiple: [0.8, 1.0, 1.2]
+  T3_MFE_GIVEBACK:
+    candidate_sets:
+      - bands:
+          - {min_r: 0.5, max_r: 1.0, giveback: 0.60}
+          - {min_r: 1.0, max_r: 1.5, giveback: 0.40}
+          - {min_r: 1.5, max_r: null, giveback: 0.25}
+  T4_SWING_TRAIL:
+    backward_looking_only: true
+    centered_pivot_allowed: false
+  T5_TIME_DECAYING:
+    tighten_after_minutes: [30, 90]
+  T6_PARTIAL_AND_TRAIL:
+    requires_partial_profile: true
+  activation_r: [0.4, 0.6, 0.8, 1.0]
+
+emergency_profiles:
+  R0_OPPOSITE_IMPULSE:
+    complete_minute_required: true
+  R1_ADVERSE_VELOCITY:
+    windows_minutes: [1, 3]
+    atr_normalized: true
+  R2_NO_BOUNCE:
+    minimum_observation_minutes: [5, 10, 15]
+  R3_REGIME_FLIP:
+    minimum_transition_confidence: [0.65, 0.75]
+    actions: [TIGHTEN_STOP, PARTIAL_EXIT, FULL_EXIT]
+  R4_OPPOSITE_LANE_CONFIRMATION:
+    minimum_score_margin: [0.10, 0.20]
+    immediate_reverse_allowed: false
+    minimum_wait_decision_bars: 1
+  R5_MFE_FAILURE:
+    minimum_mfe_r: [0.4, 0.6]
+    momentum_reversal_required: true
+
+time_exit:
+  candidate_bars_15m: [2, 4, 8, 12]
+  next_executable_event: true
+
+policy_constraints:
+  stop_may_widen_after_entry: false
+  trail_may_be_removed_after_activation: false
+  break_even_may_be_reopened: false
+  max_entry_profiles_per_lane: 2
+  max_stop_profiles_per_lane: 2
+  max_profit_profiles_per_lane: 2
+  max_trail_profiles_per_lane: 2
+  max_emergency_profiles_per_lane: 2
