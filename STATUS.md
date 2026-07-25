@@ -9,13 +9,13 @@
 - Config hash: `c4b9ffcd0e6a0667da694ec76b75f233969f1fd4694b379f7390e80558c00f37`
 - Holdout state: `SEALED`
 - Current Phase: `0 — Governance and scaffold`
-- Current gate: `PASS` (remote CI confirmation pending)
+- Current gate: `PASS`
 
 ## Phase table
 
 | Phase | Name | Status | Gate | Commit | Report | Blockers |
 |---:|---|---|---|---|---|---|
-| 0 | Governance and scaffold | COMPLETE | PASS | `5d523a4` | `reports/phase_00/PHASE_00_REPORT.md` | Remote CI pending |
+| 0 | Governance and scaffold | COMPLETE | PASS | `5d523a4` | `reports/phase_00/PHASE_00_REPORT.md` | — |
 | 1 | Data and QA | NOT_STARTED | — | — | — | Phase 0 gate not passed |
 | 2 | Replay engine | NOT_STARTED | — | — | — | Phase 0 gate not passed |
 | 3 | L1 baseline | NOT_STARTED | — | — | — | Phase 0 gate not passed |
@@ -58,8 +58,8 @@ lookahead: NOT_APPLICABLE_IN_PHASE_0
 
 ## Open blockers
 
-- GitHub Actions has not yet confirmed the same gate on the remote branch.
+- None for Phase 0.
 
 ## Next allowed action
 
-- Push the Phase 0 branch and confirm the remote CI result. Phase 1 may start only after the remote gate is green.
+- Phase 1 public-data acquisition and QA is now allowed. Execute only `prompts/PHASE_01_PROMPT.md`; do not begin strategy implementation or optimization.

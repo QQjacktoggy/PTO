@@ -2,10 +2,10 @@
 
 ## Gate status
 
-**PASS — local Phase 0 gate completed**
+**PASS — local and remote Phase 0 gates completed**
 
-The required local governance gate passed. Remote CI confirmation remains
-pending and must be green before Phase 1 begins.
+The required governance gate passed locally and in GitHub Actions on Python
+3.11.
 
 ## Objective
 
@@ -32,7 +32,7 @@ repeatable quality checks required by the project plan.
 | Tests | `make test` | PASS | 32 passed in 0.52 seconds |
 | Holdout denial | Automated default-denial tests | PASS | Missing flag/manifest, tampering, and redacted audit covered |
 | Determinism/versioning | Config hash, lock, registry, manifest tests | PASS | Config hash `c4b9ffcd...00f37`; implementation commit `5d523a4` |
-| CI | GitHub Actions Python 3.11 quality gate | PENDING | Runs after branch push |
+| CI | GitHub Actions Python 3.11 quality gate | PASS | Run 30141370410; all steps successful |
 
 ## Artifacts
 
@@ -65,7 +65,6 @@ repeatable quality checks required by the project plan.
 
 ## Known limitations
 
-- The remote Python 3.11 CI run is pending until this branch is pushed.
 - Filesystem append-only behavior is enforced by the application contract; an
   operating-system administrator can still alter local files.
 - Phase 0 validates governance and reproducibility only, not market-data
@@ -73,5 +72,6 @@ repeatable quality checks required by the project plan.
 
 ## Next allowed action
 
-Push the Phase 0 branch and confirm GitHub Actions reproduces the gate on
-Python 3.11. Only then may Phase 1 public-data acquisition and QA begin.
+Phase 1 public-data acquisition and QA may begin using only
+`prompts/PHASE_01_PROMPT.md`. Strategy implementation, parameter optimization,
+and holdout access remain prohibited.
