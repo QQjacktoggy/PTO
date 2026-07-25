@@ -31,7 +31,8 @@ data-download:
 data-validate:
 	uv run pto data validate
 
-phase1: validate-config lint typecheck test
+phase1: validate-config lint typecheck test data-validate
+	uv run pto data gate
 
 features-build:
 	@echo "Phase 2 command is not implemented in Phase 0" >&2; exit 2

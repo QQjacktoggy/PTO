@@ -36,6 +36,8 @@ def validate_klines(
     *,
     expected_symbol: str,
     expected_interval: str,
+    expected_start_ms: int | None = None,
+    expected_end_ms: int | None = None,
 ) -> QualityResult:
     """Validate order, completeness, symbols, UTC boundaries, and OHLCV invariants."""
 
@@ -43,6 +45,27 @@ def validate_klines(
     step = INTERVAL_MS[expected_interval]
     if not records:
         issues.append(QualityIssue("critical", "empty", None, "dataset contains no rows"))
+    else:
+        if expected_start_ms is not None and records[0].open_time_ms != expected_start_ms:
+            issues.append(
+                QualityIssue(
+                    "critical",
+                    "range_start",
+                    records[0].open_time_ms,
+                    f"expected {expected_start_ms}, got {records[0].open_time_ms}",
+                )
+            )
+        if expected_end_ms is not None:
+            expected_last = expected_end_ms - (expected_end_ms % step)
+            if records[-1].open_time_ms != expected_last:
+                issues.append(
+                    QualityIssue(
+                        "critical",
+                        "range_end",
+                        records[-1].open_time_ms,
+                        f"expected {expected_last}, got {records[-1].open_time_ms}",
+                    )
+                )
     seen: set[int] = set()
     previous: Kline | None = None
     for row in records:
@@ -65,6 +88,21 @@ def validate_klines(
                     f"expected {expected_close}, got {row.close_time_ms}",
                 )
             )
+        decimals = (
+            row.open,
+            row.high,
+            row.low,
+            row.close,
+            row.volume,
+            row.quote_volume,
+        )
+        if not all(value.is_finite() for value in decimals):
+            issues.append(
+                QualityIssue("critical", "non_finite", row.open_time_ms, "non-finite OHLCV")
+            )
+        prices = (row.open, row.high, row.low, row.close)
+        if any(value <= 0 for value in prices):
+            issues.append(QualityIssue("critical", "price", row.open_time_ms, "non-positive price"))
         highest = max(row.open, row.close, row.low)
         lowest = min(row.open, row.close, row.high)
         if row.high < highest or row.low > lowest or row.high < row.low:

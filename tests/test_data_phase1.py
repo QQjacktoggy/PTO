@@ -11,7 +11,7 @@ from typing import Any
 
 import pytest
 
-from pto_quant.data.client import BinancePublicClient
+from pto_quant.data.client import BinancePublicClient, PublicDataError
 from pto_quant.data.io import read_klines, write_klines
 from pto_quant.data.models import Kline
 from pto_quant.data.pipeline import acquire_symbol
@@ -19,9 +19,11 @@ from pto_quant.data.qa import validate_klines
 from pto_quant.data.resample import resample_completed
 from pto_quant.data.vision import (
     BinanceVisionClient,
+    VisionArchive,
     months_between,
     parse_vision_funding,
     parse_vision_klines,
+    save_immutable_archives,
 )
 
 
@@ -81,6 +83,27 @@ def test_qa_fails_closed_on_empty_dataset() -> None:
     result = validate_klines([], expected_symbol="ETHUSDC", expected_interval="1m")
     assert result.critical_count == 1
     assert result.issues[0].code == "empty"
+
+
+def test_qa_checks_requested_edges_and_invalid_decimals() -> None:
+    rows = _records(3)
+    partial = validate_klines(
+        rows[1:],
+        expected_symbol="ETHUSDC",
+        expected_interval="1m",
+        expected_start_ms=0,
+        expected_end_ms=179_999,
+    )
+    assert {issue.code for issue in partial.issues} == {"range_start"}
+    bad = Kline(
+        **{
+            **rows[0].__dict__,
+            "open": Decimal("-1"),
+            "high": Decimal("Infinity"),
+        }
+    )
+    numeric = validate_klines([bad], expected_symbol="ETHUSDC", expected_interval="1m")
+    assert {"non_finite", "price"} <= {issue.code for issue in numeric.issues}
 
 
 def test_resample_uses_only_complete_contiguous_windows() -> None:
@@ -149,6 +172,58 @@ def test_vision_archive_checksum_parsing_and_month_range() -> None:
     assert funding[0].funding_rate == Decimal("0.0001")
     assert funding[0].mark_price is None
     assert months_between(0, 2_678_400_000) == ["1970-01", "1970-02"]
+
+
+def test_vision_rejects_wrong_member_and_out_of_month_timestamp() -> None:
+    wrong = VisionArchive(
+        "klines",
+        "1970-01",
+        "fixture",
+        _zip_csv(
+            "BTCUSDC-1m-1970-01.csv",
+            "open_time,open,high,low,close,volume,close_time,quote_volume,count\n"
+            "0,1,1,1,1,1,59999,1,1\n",
+        ),
+        "unused",
+        "ETHUSDC-1m-1970-01.csv",
+    )
+    with pytest.raises(PublicDataError, match="unexpected CSV member"):
+        parse_vision_klines(wrong, symbol="ETHUSDC", start_ms=0, end_ms=59_999)
+    outside = VisionArchive(
+        **{
+            **wrong.__dict__,
+            "payload": _zip_csv(
+                "ETHUSDC-1m-1970-01.csv",
+                "open_time,open,high,low,close,volume,close_time,quote_volume,count\n"
+                "2678400000,1,1,1,1,1,2678459999,1,1\n",
+            ),
+        }
+    )
+    with pytest.raises(PublicDataError, match="outside archive month"):
+        parse_vision_klines(
+            outside,
+            symbol="ETHUSDC",
+            start_ms=0,
+            end_ms=3_000_000_000,
+        )
+
+
+def test_vision_archive_atomic_retry_and_manifest(tmp_path: Path) -> None:
+    payload = _zip_csv("ETHUSDC-1m-1970-01.csv", "open_time\n")
+    archive = VisionArchive(
+        "klines",
+        "1970-01",
+        "fixture",
+        payload,
+        hashlib.sha256(payload).hexdigest(),
+        "ETHUSDC-1m-1970-01.csv",
+    )
+    target = tmp_path / "klines_1970-01.zip"
+    target.write_bytes(b"interrupted")
+    save_immutable_archives([archive], tmp_path)
+    assert target.read_bytes() == payload
+    evidence = json.loads((tmp_path / "klines_1970-01.manifest.json").read_text())
+    assert evidence["checksum_sha256"] == archive.checksum
 
 
 def test_pipeline_resume_manifests_and_critical_gate(tmp_path: Path) -> None:
@@ -220,6 +295,22 @@ def test_pipeline_resume_manifests_and_critical_gate(tmp_path: Path) -> None:
     assert manifest["git_sha"] == "deadbeef"
     assert manifest["config_hash"] == "abc"
     assert len(manifest["checksum_sha256"]) == 64
+    assert manifest["market"] == "binance_usd_m_futures"
+    assert manifest["quality_status"] == "PASS"
+    assert manifest["file_size_bytes"] > 0
+
+
+def test_write_rejects_duplicates_conflicts_and_crops_range(tmp_path: Path) -> None:
+    target = tmp_path / "range.csv"
+    rows = _records(4)
+    with pytest.raises(ValueError, match="identical duplicate"):
+        write_klines(target, [rows[0], rows[0]])
+    write_klines(target, rows)
+    write_klines(target, [], range_start_ms=60_000, range_end_ms=120_000)
+    assert [row.open_time_ms for row in read_klines(target)] == [60_000, 120_000]
+    conflict = Kline(**{**rows[1].__dict__, "close": Decimal("999")})
+    with pytest.raises(ValueError, match="conflicting persisted"):
+        write_klines(target, [conflict])
 
 
 @pytest.mark.parametrize("target", ["5m", "15m", "1h"])

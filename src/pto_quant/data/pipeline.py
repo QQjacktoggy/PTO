@@ -11,15 +11,14 @@ from pathlib import Path
 from typing import Any
 
 from pto_quant.data.client import BinancePublicClient
-from pto_quant.data.io import read_klines, write_funding, write_klines
+from pto_quant.data.io import read_funding, read_klines, write_funding, write_klines
 from pto_quant.data.models import FundingRate, Kline
-from pto_quant.data.qa import QualityResult, validate_klines
+from pto_quant.data.qa import QualityIssue, QualityResult, validate_klines
 from pto_quant.data.resample import resample_completed
 from pto_quant.data.vision import (
     BinanceVisionClient,
     parse_vision_funding,
     parse_vision_klines,
-    save_immutable_archives,
 )
 from pto_quant.governance.manifest import sha256_file
 
@@ -37,6 +36,10 @@ class DatasetManifest:
     git_sha: str
     config_hash: str
     created_at: str
+    market: str
+    file_size_bytes: int
+    quality_status: str
+    source_artifacts: tuple[str, ...]
 
 
 def _write_json(path: Path, value: object) -> None:
@@ -84,6 +87,8 @@ def _manifest(
     artifact: Path,
     revision: str,
     config_hash: str,
+    quality_status: str,
+    source_artifacts: tuple[str, ...] = (),
 ) -> DatasetManifest:
     value = DatasetManifest(
         schema_version=1,
@@ -97,6 +102,10 @@ def _manifest(
         git_sha=revision,
         config_hash=config_hash,
         created_at=datetime.now(UTC).isoformat().replace("+00:00", "Z"),
+        market="binance_usd_m_futures",
+        file_size_bytes=artifact.stat().st_size,
+        quality_status=quality_status,
+        source_artifacts=source_artifacts,
     )
     _write_json(path, asdict(value))
     return value
@@ -129,13 +138,19 @@ def acquire_symbol(
     parsed = [Kline.from_binance(symbol, "1m", row) for row in raw_rows]
     raw_kline_path = raw / f"klines_1m_{resume_start}_{end_ms}.json"
     _write_immutable_json(raw_kline_path, raw_rows)
-    kline_count = write_klines(kline_path, parsed)
+    kline_count = write_klines(
+        kline_path,
+        parsed,
+        range_start_ms=start_ms,
+        range_end_ms=end_ms,
+    )
     funding_rows = client.funding(symbol, start_ms=start_ms, end_ms=end_ms)
     raw_funding_path = raw / f"funding_{start_ms}_{end_ms}.json"
     _write_immutable_json(raw_funding_path, funding_rows)
     funding_count = write_funding(
         funding_path, (FundingRate.from_binance(row) for row in funding_rows)
     )
+    acquired_at = datetime.now(UTC).isoformat().replace("+00:00", "Z")
     metadata = client.exchange_info()
     selected = next(
         (item for item in metadata["symbols"] if item.get("symbol") == symbol),
@@ -144,17 +159,55 @@ def acquire_symbol(
     if selected is None:
         raise ValueError(f"symbol absent from exchangeInfo: {symbol}")
     metadata_path = normalized / "metadata.json"
-    _write_json(metadata_path, selected)
-    raw_metadata_path = raw / f"exchange_info_{end_ms}.json"
-    _write_immutable_json(raw_metadata_path, selected)
+    metadata_record = {
+        "metadata_kind": "current_provenance_only",
+        "acquired_at": acquired_at,
+        "effective_at": None,
+        "eligible_for_point_in_time_research": False,
+        "exchange_info": selected,
+    }
+    _write_json(metadata_path, metadata_record)
+    raw_metadata_path = raw / f"exchange_info_acquired_{acquired_at.replace(':', '-')}.json"
+    _write_immutable_json(raw_metadata_path, metadata_record)
     final = read_klines(kline_path)
-    qa = validate_klines(final, expected_symbol=symbol, expected_interval="1m")
+    qa = validate_klines(
+        final,
+        expected_symbol=symbol,
+        expected_interval="1m",
+        expected_start_ms=start_ms,
+        expected_end_ms=end_ms,
+    )
     qa_path = normalized / "qa.json"
     _write_json(qa_path, qa.to_dict())
+    status = "PASS" if qa.critical_count == 0 else "REJECTED"
     outputs: dict[str, int] = {"1m": kline_count}
+    if qa.critical_count:
+        _manifest(
+            manifests / "1m.manifest.json",
+            source="binance:fapi/v1/klines",
+            symbol=symbol,
+            interval="1m",
+            start_ms=start_ms,
+            end_ms=end_ms,
+            rows=kline_count,
+            artifact=kline_path,
+            revision=revision,
+            config_hash=config_hash,
+            quality_status=status,
+            source_artifacts=(raw_kline_path.as_posix(),),
+        )
+        return {
+            "symbol": symbol,
+            "resume_start_ms": resume_start,
+            "downloaded_1m_rows": len(parsed),
+            "rows": outputs,
+            "funding_rows": funding_count,
+            "qa": qa.to_dict(),
+            "quality_status": status,
+        }
     for interval in ("5m", "15m", "1h"):
         path = normalized / f"{interval}.csv"
-        outputs[interval] = write_klines(path, resample_completed(final, interval))
+        outputs[interval] = write_klines(path, resample_completed(final, interval), replace=True)
         _manifest(
             manifests / f"{interval}.manifest.json",
             source="derived:completed-window-resample",
@@ -166,11 +219,13 @@ def acquire_symbol(
             artifact=path,
             revision=revision,
             config_hash=config_hash,
+            quality_status=status,
+            source_artifacts=(kline_path.as_posix(),),
         )
     for name, interval, rows, artifact, source in (
         ("1m", "1m", kline_count, kline_path, "binance:fapi/v1/klines"),
         ("funding", "funding", funding_count, funding_path, "binance:fapi/v1/fundingRate"),
-        ("metadata", "point-in-time", 1, metadata_path, "binance:fapi/v1/exchangeInfo"),
+        ("metadata", "current-provenance", 1, metadata_path, "binance:fapi/v1/exchangeInfo"),
         ("qa", "point-in-time", qa.rows, qa_path, "pto:phase1-validation"),
         (
             "raw_klines",
@@ -194,8 +249,13 @@ def acquire_symbol(
             "binance:fapi/v1/exchangeInfo:raw",
         ),
     ):
+        manifest_name = (
+            f"raw/{artifact.stem}.manifest.json"
+            if name.startswith("raw_")
+            else f"{name}.manifest.json"
+        )
         _manifest(
-            manifests / f"{name}.manifest.json",
+            manifests / manifest_name,
             source=source,
             symbol=symbol,
             interval=interval,
@@ -205,7 +265,15 @@ def acquire_symbol(
             artifact=artifact,
             revision=revision,
             config_hash=config_hash,
+            quality_status=status,
+            source_artifacts=(),
         )
+    one_manifest_path = manifests / "1m.manifest.json"
+    one_manifest = json.loads(one_manifest_path.read_text(encoding="utf-8"))
+    one_manifest["source_artifacts"] = sorted(
+        path.as_posix() for path in (manifests / "raw").glob("klines_*.manifest.json")
+    )
+    _write_json(one_manifest_path, one_manifest)
     return {
         "symbol": symbol,
         "resume_start_ms": resume_start,
@@ -213,12 +281,93 @@ def acquire_symbol(
         "rows": outputs,
         "funding_rows": funding_count,
         "qa": qa.to_dict(),
+        "quality_status": status,
     }
 
 
 def validate_symbol(root: Path, symbol: str) -> QualityResult:
-    path = root / "data" / "normalized" / symbol / "1m.csv"
-    return validate_klines(read_klines(path), expected_symbol=symbol, expected_interval="1m")
+    normalized = root / "data" / "normalized" / symbol
+    manifests = root / "data" / "manifests" / symbol
+    issues: list[QualityIssue] = []
+    one_manifest_path = manifests / "1m.manifest.json"
+    try:
+        one_manifest = json.loads(one_manifest_path.read_text(encoding="utf-8"))
+        start_ms = int(one_manifest["range_start_ms"])
+        end_ms = int(one_manifest["range_end_ms"])
+    except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+        return QualityResult(
+            0, None, None, 1, 0, (QualityIssue("critical", "manifest", None, str(exc)),)
+        )
+    one_rows = read_klines(normalized / "1m.csv")
+    base = validate_klines(
+        one_rows,
+        expected_symbol=symbol,
+        expected_interval="1m",
+        expected_start_ms=start_ms,
+        expected_end_ms=end_ms,
+    )
+    issues.extend(base.issues)
+    required = ("1m", "5m", "15m", "1h", "funding", "metadata", "qa")
+    for name in required:
+        suffix = "csv" if name in {"1m", "5m", "15m", "1h", "funding"} else "json"
+        artifact = normalized / f"{name}.{suffix}"
+        manifest_path = manifests / f"{name}.manifest.json"
+        if not artifact.is_file() or not manifest_path.is_file():
+            issues.append(QualityIssue("critical", "missing_artifact", None, name))
+            continue
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            required_fields = {
+                "market",
+                "file_size_bytes",
+                "quality_status",
+                "checksum_sha256",
+                "rows",
+                "range_start_ms",
+                "range_end_ms",
+            }
+            if not required_fields <= set(manifest):
+                raise ValueError("manifest governance fields missing")
+            if manifest["checksum_sha256"] != sha256_file(artifact):
+                raise ValueError("checksum mismatch")
+            if manifest["file_size_bytes"] != artifact.stat().st_size:
+                raise ValueError("file size mismatch")
+            if manifest["quality_status"] != "PASS":
+                raise ValueError(f"quality status is {manifest['quality_status']}")
+            if name in {"1m", "5m", "15m", "1h"}:
+                rows = read_klines(artifact)
+                if len(rows) != int(manifest["rows"]):
+                    raise ValueError("row count mismatch")
+                expected = one_rows if name == "1m" else resample_completed(one_rows, name)
+                if rows != expected:
+                    raise ValueError("derived data mismatch")
+            elif name == "funding":
+                funding = read_funding(artifact)
+                if len(funding) != int(manifest["rows"]):
+                    raise ValueError("funding row count mismatch")
+                if any(
+                    not row.funding_rate.is_finite()
+                    or (
+                        row.mark_price is not None
+                        and (not row.mark_price.is_finite() or row.mark_price <= 0)
+                    )
+                    for row in funding
+                ):
+                    raise ValueError("invalid funding numeric value")
+                if not funding:
+                    issues.append(QualityIssue("warning", "missing_funding", None, symbol))
+        except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+            issues.append(QualityIssue("critical", "artifact_validation", None, f"{name}: {exc}"))
+    critical = sum(issue.severity == "critical" for issue in issues)
+    warnings = sum(issue.severity == "warning" for issue in issues)
+    return QualityResult(
+        len(one_rows),
+        one_rows[0].open_time_ms if one_rows else None,
+        one_rows[-1].open_time_ms if one_rows else None,
+        critical,
+        warnings,
+        tuple(issues),
+    )
 
 
 def acquire_symbol_vision(
@@ -237,9 +386,8 @@ def acquire_symbol_vision(
     normalized = root / "data" / "normalized" / symbol
     raw = root / "data" / "raw" / "binance_vision" / symbol
     manifests = root / "data" / "manifests" / symbol
-    kline_archives = [client.klines(symbol, month) for month in months]
-    funding_archives = [client.funding(symbol, month) for month in months]
-    save_immutable_archives(kline_archives + funding_archives, raw)
+    kline_archives = [client.klines(symbol, month, directory=raw) for month in months]
+    funding_archives = [client.funding(symbol, month, directory=raw) for month in months]
 
     kline_records = [
         record
@@ -253,7 +401,13 @@ def acquire_symbol_vision(
     ]
     kline_path = normalized / "1m.csv"
     funding_path = normalized / "funding.csv"
-    kline_count = write_klines(kline_path, kline_records)
+    kline_count = write_klines(
+        kline_path,
+        kline_records,
+        range_start_ms=start_ms,
+        range_end_ms=end_ms,
+        replace=True,
+    )
     funding_count = write_funding(funding_path, funding_records)
 
     metadata = {
@@ -268,14 +422,50 @@ def acquire_symbol_vision(
     metadata_path = normalized / "metadata.json"
     _write_json(metadata_path, metadata)
     final = read_klines(kline_path)
-    qa = validate_klines(final, expected_symbol=symbol, expected_interval="1m")
+    qa = validate_klines(
+        final,
+        expected_symbol=symbol,
+        expected_interval="1m",
+        expected_start_ms=start_ms,
+        expected_end_ms=end_ms,
+    )
     qa_path = normalized / "qa.json"
     _write_json(qa_path, qa.to_dict())
 
+    status = "PASS" if qa.critical_count == 0 else "REJECTED"
     outputs: dict[str, int] = {"1m": kline_count}
+    raw_sources = tuple(
+        (raw / f"{archive.kind}_{archive.month}.manifest.json").as_posix()
+        for archive in (*kline_archives, *funding_archives)
+    )
+    if qa.critical_count:
+        _manifest(
+            manifests / "1m.manifest.json",
+            source="binance-vision:monthly/klines",
+            symbol=symbol,
+            interval="1m",
+            start_ms=start_ms,
+            end_ms=end_ms,
+            rows=kline_count,
+            artifact=kline_path,
+            revision=revision,
+            config_hash=config_hash,
+            quality_status=status,
+            source_artifacts=raw_sources,
+        )
+        return {
+            "symbol": symbol,
+            "transport": "binance_vision",
+            "months": months,
+            "downloaded_1m_rows": len(kline_records),
+            "rows": outputs,
+            "funding_rows": funding_count,
+            "qa": qa.to_dict(),
+            "quality_status": status,
+        }
     for interval in ("5m", "15m", "1h"):
         path = normalized / f"{interval}.csv"
-        outputs[interval] = write_klines(path, resample_completed(final, interval))
+        outputs[interval] = write_klines(path, resample_completed(final, interval), replace=True)
         _manifest(
             manifests / f"{interval}.manifest.json",
             source="derived:completed-window-resample",
@@ -287,6 +477,8 @@ def acquire_symbol_vision(
             artifact=path,
             revision=revision,
             config_hash=config_hash,
+            quality_status=status,
+            source_artifacts=(kline_path.as_posix(),),
         )
     for name, interval, rows, artifact, source in (
         ("1m", "1m", kline_count, kline_path, "binance-vision:monthly/klines"),
@@ -311,6 +503,8 @@ def acquire_symbol_vision(
             artifact=artifact,
             revision=revision,
             config_hash=config_hash,
+            quality_status=status,
+            source_artifacts=raw_sources if name in {"1m", "funding"} else (),
         )
     return {
         "symbol": symbol,
@@ -320,4 +514,5 @@ def acquire_symbol_vision(
         "rows": outputs,
         "funding_rows": funding_count,
         "qa": qa.to_dict(),
+        "quality_status": status,
     }

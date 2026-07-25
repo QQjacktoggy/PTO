@@ -33,11 +33,38 @@ def _atomic_rows(path: Path, header: list[str], rows: Iterable[list[str]]) -> No
         raise
 
 
-def write_klines(path: Path, records: Iterable[Kline]) -> int:
+def _unique_klines(records: Iterable[Kline]) -> dict[int, Kline]:
+    unique: dict[int, Kline] = {}
+    for row in records:
+        previous = unique.get(row.open_time_ms)
+        if previous is not None:
+            kind = "identical" if previous == row else "conflicting"
+            raise ValueError(f"{kind} duplicate kline at {row.open_time_ms}")
+        unique[row.open_time_ms] = row
+    return unique
+
+
+def write_klines(
+    path: Path,
+    records: Iterable[Kline],
+    *,
+    range_start_ms: int | None = None,
+    range_end_ms: int | None = None,
+    replace: bool = False,
+) -> int:
     """Merge by open time and atomically write sorted normalized klines."""
 
-    merged = {row.open_time_ms: row for row in read_klines(path)}
-    merged.update({row.open_time_ms: row for row in records})
+    incoming = _unique_klines(records)
+    merged = {} if replace else _unique_klines(read_klines(path))
+    for timestamp, row in incoming.items():
+        previous = merged.get(timestamp)
+        if previous is not None and previous != row:
+            raise ValueError(f"conflicting persisted kline at {timestamp}")
+        merged[timestamp] = row
+    if range_start_ms is not None:
+        merged = {key: row for key, row in merged.items() if key >= range_start_ms}
+    if range_end_ms is not None:
+        merged = {key: row for key, row in merged.items() if key <= range_end_ms}
     ordered = [merged[key] for key in sorted(merged)]
     _atomic_rows(path, KLINE_HEADER, (row.csv_row() for row in ordered))
     return len(ordered)

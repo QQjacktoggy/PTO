@@ -5,6 +5,8 @@ from __future__ import annotations
 import csv
 import hashlib
 import io
+import os
+import tempfile
 import urllib.error
 import urllib.request
 import zipfile
@@ -42,6 +44,7 @@ class VisionArchive:
     url: str
     payload: bytes
     checksum: str
+    member_name: str
 
 
 class BinanceVisionClient:
@@ -56,7 +59,7 @@ class BinanceVisionClient:
         self.base_url = base_url.rstrip("/")
         self.getter = getter or urllib_bytes_get
 
-    def _archive(self, path: str, *, kind: str, month: str) -> VisionArchive:
+    def _archive(self, path: str, *, kind: str, month: str, member_name: str) -> VisionArchive:
         url = f"{self.base_url}/{path}"
         payload = self.getter(url)
         checksum_payload = self.getter(f"{url}.CHECKSUM").decode("ascii").strip()
@@ -66,22 +69,62 @@ class BinanceVisionClient:
             raise PublicDataError(
                 f"checksum mismatch for {url}: expected {expected}, received {actual}"
             )
-        return VisionArchive(kind=kind, month=month, url=url, payload=payload, checksum=actual)
-
-    def klines(self, symbol: str, month: str) -> VisionArchive:
-        filename = f"{symbol}-1m-{month}.zip"
-        return self._archive(
-            f"data/futures/um/monthly/klines/{symbol}/1m/{filename}",
-            kind="klines",
+        return VisionArchive(
+            kind=kind,
             month=month,
+            url=url,
+            payload=payload,
+            checksum=actual,
+            member_name=member_name,
         )
 
-    def funding(self, symbol: str, month: str) -> VisionArchive:
+    def _cached_archive(
+        self,
+        *,
+        path: str,
+        kind: str,
+        month: str,
+        member_name: str,
+        directory: Path | None,
+    ) -> VisionArchive:
+        url = f"{self.base_url}/{path}"
+        target = directory / f"{kind}_{month}.zip" if directory is not None else None
+        manifest = target.with_suffix(".manifest.json") if target is not None else None
+        if target is not None and manifest is not None and target.is_file() and manifest.is_file():
+            import json
+
+            evidence = json.loads(manifest.read_text(encoding="utf-8"))
+            payload = target.read_bytes()
+            actual = hashlib.sha256(payload).hexdigest()
+            if (
+                evidence.get("checksum_sha256") == actual
+                and evidence.get("url") == url
+                and evidence.get("member_name") == member_name
+            ):
+                return VisionArchive(kind, month, url, payload, actual, member_name)
+        archive = self._archive(path, kind=kind, month=month, member_name=member_name)
+        if directory is not None:
+            save_immutable_archives([archive], directory)
+        return archive
+
+    def klines(self, symbol: str, month: str, *, directory: Path | None = None) -> VisionArchive:
+        filename = f"{symbol}-1m-{month}.zip"
+        return self._cached_archive(
+            path=f"data/futures/um/monthly/klines/{symbol}/1m/{filename}",
+            kind="klines",
+            month=month,
+            member_name=filename.removesuffix(".zip") + ".csv",
+            directory=directory,
+        )
+
+    def funding(self, symbol: str, month: str, *, directory: Path | None = None) -> VisionArchive:
         filename = f"{symbol}-fundingRate-{month}.zip"
-        return self._archive(
-            f"data/futures/um/monthly/fundingRate/{symbol}/{filename}",
+        return self._cached_archive(
+            path=f"data/futures/um/monthly/fundingRate/{symbol}/{filename}",
             kind="funding",
             month=month,
+            member_name=filename.removesuffix(".zip") + ".csv",
+            directory=directory,
         )
 
 
@@ -99,12 +142,17 @@ def months_between(start_ms: int, end_ms: int) -> list[str]:
     return values
 
 
-def _csv_rows(payload: bytes) -> list[dict[str, str]]:
+def _csv_rows(archive_record: VisionArchive) -> list[dict[str, str]]:
     try:
-        with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+        with zipfile.ZipFile(io.BytesIO(archive_record.payload)) as archive:
             members = [name for name in archive.namelist() if name.endswith(".csv")]
             if len(members) != 1:
                 raise PublicDataError(f"expected one CSV in archive, found {len(members)}")
+            if Path(members[0]).name != archive_record.member_name:
+                raise PublicDataError(
+                    "unexpected CSV member: "
+                    f"expected {archive_record.member_name}, got {members[0]}"
+                )
             with archive.open(members[0]) as raw:
                 stream = io.TextIOWrapper(raw, encoding="utf-8", newline="")
                 return list(csv.DictReader(stream))
@@ -120,8 +168,11 @@ def parse_vision_klines(
     end_ms: int,
 ) -> list[Kline]:
     records: list[Kline] = []
-    for row in _csv_rows(archive.payload):
+    month_prefix = archive.month
+    for row in _csv_rows(archive):
         opened = int(row["open_time"])
+        if datetime.fromtimestamp(opened / 1000, tz=UTC).strftime("%Y-%m") != month_prefix:
+            raise PublicDataError(f"kline timestamp outside archive month {archive.month}")
         if start_ms <= opened <= end_ms:
             records.append(
                 Kline.from_binance(
@@ -151,8 +202,10 @@ def parse_vision_funding(
     end_ms: int,
 ) -> list[FundingRate]:
     records: list[FundingRate] = []
-    for row in _csv_rows(archive.payload):
+    for row in _csv_rows(archive):
         timestamp = int(row["calc_time"])
+        if datetime.fromtimestamp(timestamp / 1000, tz=UTC).strftime("%Y-%m") != archive.month:
+            raise PublicDataError(f"funding timestamp outside archive month {archive.month}")
         if start_ms <= timestamp <= end_ms:
             records.append(
                 FundingRate.from_binance(
@@ -167,12 +220,49 @@ def parse_vision_funding(
 
 
 def save_immutable_archives(archives: Iterable[VisionArchive], directory: Path) -> None:
+    import json
+
     directory.mkdir(parents=True, exist_ok=True)
     for archive in archives:
         path = directory / f"{archive.kind}_{archive.month}.zip"
+        manifest_path = path.with_suffix(".manifest.json")
         if path.exists():
             if hashlib.sha256(path.read_bytes()).hexdigest() != archive.checksum:
-                raise ValueError(f"immutable raw artifact differs on retry: {path}")
-            continue
-        path.write_bytes(archive.payload)
-        path.chmod(0o444)
+                # A prior interrupted write is not immutable evidence because it has
+                # no matching checksum manifest. Replace it safely.
+                if manifest_path.exists():
+                    raise ValueError(f"immutable raw artifact differs on retry: {path}")
+                path.unlink()
+            else:
+                if manifest_path.exists():
+                    continue
+        if not path.exists():
+            descriptor, temp_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=directory)
+            try:
+                with os.fdopen(descriptor, "wb") as stream:
+                    stream.write(archive.payload)
+                    stream.flush()
+                    os.fsync(stream.fileno())
+                if hashlib.sha256(Path(temp_name).read_bytes()).hexdigest() != archive.checksum:
+                    raise ValueError(f"temporary archive checksum mismatch: {path}")
+                os.replace(temp_name, path)
+            except BaseException:
+                Path(temp_name).unlink(missing_ok=True)
+                raise
+            path.chmod(0o444)
+        evidence = {
+            "schema_version": 1,
+            "kind": archive.kind,
+            "month": archive.month,
+            "url": archive.url,
+            "member_name": archive.member_name,
+            "checksum_sha256": archive.checksum,
+            "bytes": path.stat().st_size,
+        }
+        payload = json.dumps(evidence, indent=2, sort_keys=True) + "\n"
+        descriptor = os.open(manifest_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o444)
+        try:
+            os.write(descriptor, payload.encode())
+            os.fsync(descriptor)
+        finally:
+            os.close(descriptor)
