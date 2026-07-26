@@ -1,14 +1,14 @@
 {
   "artifact_hashes": {
-    "evidence_index": "672ca6cee74b47ab29a564f575a3e49e54310e90a6846ccc46d53de2addfce2b",
-    "gate": "4fb669f74b4910976ea835bbf0b16021e31f4f2ff8c2f250fa886da1040187a2",
-    "phase_report": "7e389dd89aae35caf193231cf1b9a51be197e334790471ace44bfc15dbd1e8f1",
-    "status": "1d50784ab5327761f33675140d4642940a45f3f39f3a2a7a8d0fbee75d76bcf2"
+    "evidence_index": "e16a29195e9411abb64bfb6ee4f8d6f0ecf5be5cb0975ac41579f7b977bb9f6d",
+    "gate": "30d306dabbaf4bcc719aaff106fc9b2d064e711488f4e3609a260e21b8b81046",
+    "phase_report": "d88a2e967265a1e979bf0ac41f143ce43af809716696788ff2148f64d3e4ab2b",
+    "status": "7772e66a23f23606ecc716a9ff550b9bdba4449991770c971b820ef79dfe7ec5"
   },
   "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
   "created_at": "2026-07-26T00:43:55.542618Z",
-  "git_sha": "c26b9c2ecc6fd0e554f562ec0305255f2156ea9c",
-  "implementation_git_sha": "c26b9c2ecc6fd0e554f562ec0305255f2156ea9c",
+  "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+  "implementation_git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
   "phase": 1,
   "schema_version": 3,
   "status": "PASS"

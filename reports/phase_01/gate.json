@@ -1,11 +1,11 @@
 {
   "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
   "evidence_index_path": "data/manifests/evidence-index.json",
-  "evidence_index_sha256": "672ca6cee74b47ab29a564f575a3e49e54310e90a6846ccc46d53de2addfce2b",
+  "evidence_index_sha256": "e16a29195e9411abb64bfb6ee4f8d6f0ecf5be5cb0975ac41579f7b977bb9f6d",
   "expected_end_ms": 1751327999999,
   "expected_start_ms": 1704412800000,
   "generated_at": "2026-07-26T00:43:55.542618Z",
-  "implementation_git_sha": "c26b9c2ecc6fd0e554f562ec0305255f2156ea9c",
+  "implementation_git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
   "minimum_history_days": 540,
   "phase": 1,
   "schema_version": 3,

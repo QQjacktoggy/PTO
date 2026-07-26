@@ -3,7 +3,7 @@
 ## 專案
 
 - Project: `ETHUSDC_ADAPTIVE_MULTI_LANE_V2`
-- Implementation Git SHA: `c26b9c2ecc6fd0e554f562ec0305255f2156ea9c`
+- Implementation Git SHA: `933c7ff07574700e4aad45942c547a1b225c0d05`
 - Config hash: `7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b`
 - Data window: `2024-01-05T00:00:00Z` ～ `2025-06-30T23:59:59.999Z`
 - Markets: `ETHUSDC`、`BTCUSDC`
@@ -16,7 +16,7 @@
 | Phase | 名稱 | 狀態 | Gate | Commit | 報告 | Blockers |
 |---:|---|---|---|---|---|---|
 | 0 | Governance and scaffold | COMPLETE | PASS | `5d523a4` | `reports/phase_00/PHASE_00_REPORT.md` | — |
-| 1 | Data and QA | COMPLETE | PASS | `c26b9c2` | `reports/phase_01/PHASE_01_REPORT.md` | PR #2 第三輪 review |
+| 1 | Data and QA | COMPLETE | PASS | `933c7ff` | `reports/phase_01/PHASE_01_REPORT.md` | PR #2 第三輪 review |
 | 2 | Replay engine | NOT_STARTED | — | — | — | Phase 1 PR 尚未合併 |
 | 3 | L1 baseline | NOT_STARTED | — | — | — | Phase 2 未完成 |
 | 4 | Multi-lane library | NOT_STARTED | — | — | — | Phase 2 未完成 |
@@ -59,7 +59,7 @@ Holdout denial: PASS — trusted boundary and default-deny tests
 ## Review 狀態
 
 - PR：`QQjacktoggy/PTO#2`
-- 本地修正 commit：`c26b9c2`
+- GitHub 實作 commit：`933c7ff`
 - 第二輪 10 條 findings 已全部在程式與測試中處理。
 - 尚未推回 GitHub、尚未完成第三輪 `@codex review`；在此之前不得合併。
 
