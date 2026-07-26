@@ -12,9 +12,9 @@ from typing import Any
 import pytest
 
 from pto_quant.data.client import BinancePublicClient, PublicDataError
-from pto_quant.data.io import read_klines, write_klines
-from pto_quant.data.models import Kline
-from pto_quant.data.pipeline import acquire_symbol
+from pto_quant.data.io import read_funding, read_klines, write_funding, write_klines
+from pto_quant.data.models import FundingRate, Kline
+from pto_quant.data.pipeline import acquire_symbol, validate_symbol
 from pto_quant.data.qa import validate_klines
 from pto_quant.data.resample import resample_completed
 from pto_quant.data.vision import (
@@ -104,6 +104,9 @@ def test_qa_checks_requested_edges_and_invalid_decimals() -> None:
     )
     numeric = validate_klines([bad], expected_symbol="ETHUSDC", expected_interval="1m")
     assert {"non_finite", "price"} <= {issue.code for issue in numeric.issues}
+    nan = Kline(**{**rows[0].__dict__, "open": Decimal("NaN")})
+    nan_result = validate_klines([nan], expected_symbol="ETHUSDC", expected_interval="1m")
+    assert "non_finite" in {issue.code for issue in nan_result.issues}
 
 
 def test_resample_uses_only_complete_contiguous_windows() -> None:
@@ -168,6 +171,7 @@ def test_vision_archive_checksum_parsing_and_month_range() -> None:
     assert parse_vision_klines(
         kline_archive, symbol="ETHUSDC", start_ms=0, end_ms=59_999
     ) == _records(1)
+    assert parse_vision_klines(kline_archive, symbol="ETHUSDC", start_ms=0, end_ms=0) == []
     funding = parse_vision_funding(funding_archive, symbol="ETHUSDC", start_ms=0, end_ms=59_999)
     assert funding[0].funding_rate == Decimal("0.0001")
     assert funding[0].mark_price is None
@@ -223,6 +227,24 @@ def test_vision_archive_atomic_retry_and_manifest(tmp_path: Path) -> None:
     save_immutable_archives([archive], tmp_path)
     assert target.read_bytes() == payload
     evidence = json.loads((tmp_path / "klines_1970-01.manifest.json").read_text())
+    assert evidence["checksum_sha256"] == archive.checksum
+
+
+def test_vision_archive_repairs_malformed_sidecar_atomically(tmp_path: Path) -> None:
+    payload = _zip_csv("ETHUSDC-1m-1970-01.csv", "open_time\n")
+    archive = VisionArchive(
+        "klines",
+        "1970-01",
+        "fixture",
+        payload,
+        hashlib.sha256(payload).hexdigest(),
+        "ETHUSDC-1m-1970-01.csv",
+    )
+    target = tmp_path / "klines_1970-01.zip"
+    target.write_bytes(payload)
+    target.with_suffix(".manifest.json").write_text("{", encoding="utf-8")
+    save_immutable_archives([archive], tmp_path)
+    evidence = json.loads(target.with_suffix(".manifest.json").read_text())
     assert evidence["checksum_sha256"] == archive.checksum
 
 
@@ -298,6 +320,126 @@ def test_pipeline_resume_manifests_and_critical_gate(tmp_path: Path) -> None:
     assert manifest["market"] == "binance_usd_m_futures"
     assert manifest["quality_status"] == "PASS"
     assert manifest["file_size_bytes"] > 0
+
+
+def test_pipeline_repairs_missing_prefix_and_suffix(tmp_path: Path) -> None:
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@example.com",
+            "commit",
+            "--allow-empty",
+            "-qm",
+            "init",
+        ],
+        cwd=tmp_path,
+        check=True,
+    )
+    fixture = json.loads(
+        (Path(__file__).parent / "fixtures" / "binance_exchange_info.json").read_text()
+    )
+    requests: list[tuple[str, int]] = []
+
+    def getter(path: str, params: dict[str, str | int]) -> Any:
+        if path.endswith("exchangeInfo"):
+            return fixture
+        start = int(params["startTime"])
+        requests.append((path, start))
+        if path.endswith("klines"):
+            return [_minute(index) for index in range(start // 60_000, 60)]
+        if path.endswith("fundingRate"):
+            return [{"symbol": "ETHUSDC", "fundingTime": 0, "fundingRate": "0.0001"}]
+        raise AssertionError(path)
+
+    partial_path = tmp_path / "data/normalized/ETHUSDC/1m.csv"
+    write_klines(partial_path, _records(32)[10:])
+    result = acquire_symbol(
+        BinancePublicClient(getter=getter, pause_seconds=0),
+        root=tmp_path,
+        symbol="ETHUSDC",
+        start_ms=0,
+        end_ms=3_599_999,
+        config_hash="abc",
+        revision="deadbeef",
+    )
+    assert result["qa"]["critical_count"] == 0
+    assert [row.open_time_ms for row in read_klines(partial_path)] == [
+        index * 60_000 for index in range(60)
+    ]
+    assert requests[:2] == [
+        ("/fapi/v1/klines", 0),
+        ("/fapi/v1/klines", 1_920_000),
+    ]
+
+
+def test_funding_writer_crops_and_rejects_conflicts(tmp_path: Path) -> None:
+    target = tmp_path / "funding.csv"
+    rows = [FundingRate(index * 1000, "ETHUSDC", Decimal("0.1"), None) for index in range(3)]
+    assert write_funding(target, rows) == 3
+    assert write_funding(target, [], range_start_ms=1000, range_end_ms=1000) == 1
+    assert [row.funding_time_ms for row in read_funding(target)] == [1000]
+    with pytest.raises(ValueError, match="conflicting persisted funding"):
+        write_funding(
+            target,
+            [FundingRate(1000, "ETHUSDC", Decimal("0.2"), None)],
+        )
+
+
+def test_validator_requires_governed_history_not_manifest_declared_short_window(
+    tmp_path: Path,
+) -> None:
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@example.com",
+            "commit",
+            "--allow-empty",
+            "-qm",
+            "init",
+        ],
+        cwd=tmp_path,
+        check=True,
+    )
+    fixture = json.loads(
+        (Path(__file__).parent / "fixtures" / "binance_exchange_info.json").read_text()
+    )
+
+    def getter(path: str, params: dict[str, str | int]) -> Any:
+        if path.endswith("exchangeInfo"):
+            return fixture
+        if path.endswith("klines"):
+            return [_minute(index) for index in range(int(params["startTime"]) // 60_000, 60)]
+        if path.endswith("fundingRate"):
+            return [{"symbol": "ETHUSDC", "fundingTime": 0, "fundingRate": "0.0001"}]
+        raise AssertionError(path)
+
+    acquire_symbol(
+        BinancePublicClient(getter=getter, pause_seconds=0),
+        root=tmp_path,
+        symbol="ETHUSDC",
+        start_ms=0,
+        end_ms=3_599_999,
+        config_hash="abc",
+        revision="deadbeef",
+    )
+    result = validate_symbol(
+        tmp_path,
+        "ETHUSDC",
+        expected_start_ms=0,
+        expected_end_ms=3_599_999,
+        minimum_history_days=540,
+        expected_config_hash="abc",
+    )
+    assert result.critical_count > 0
+    assert any(issue.code == "insufficient_history" for issue in result.issues)
 
 
 def test_write_rejects_duplicates_conflicts_and_crops_range(tmp_path: Path) -> None:

@@ -44,6 +44,17 @@ def _unique_klines(records: Iterable[Kline]) -> dict[int, Kline]:
     return unique
 
 
+def _unique_funding(records: Iterable[FundingRate]) -> dict[int, FundingRate]:
+    unique: dict[int, FundingRate] = {}
+    for row in records:
+        previous = unique.get(row.funding_time_ms)
+        if previous is not None:
+            kind = "identical" if previous == row else "conflicting"
+            raise ValueError(f"{kind} duplicate funding at {row.funding_time_ms}")
+        unique[row.funding_time_ms] = row
+    return unique
+
+
 def write_klines(
     path: Path,
     records: Iterable[Kline],
@@ -95,11 +106,27 @@ def read_klines(path: Path) -> list[Kline]:
         ]
 
 
-def write_funding(path: Path, records: Iterable[FundingRate]) -> int:
-    """Merge by funding timestamp and atomically write sorted funding data."""
+def write_funding(
+    path: Path,
+    records: Iterable[FundingRate],
+    *,
+    range_start_ms: int | None = None,
+    range_end_ms: int | None = None,
+    replace: bool = False,
+) -> int:
+    """Merge funding by timestamp, reject conflicts, and crop to the request."""
 
-    merged = {row.funding_time_ms: row for row in read_funding(path)}
-    merged.update({row.funding_time_ms: row for row in records})
+    incoming = _unique_funding(records)
+    merged = {} if replace else _unique_funding(read_funding(path))
+    for timestamp, row in incoming.items():
+        previous = merged.get(timestamp)
+        if previous is not None and previous != row:
+            raise ValueError(f"conflicting persisted funding at {timestamp}")
+        merged[timestamp] = row
+    if range_start_ms is not None:
+        merged = {key: row for key, row in merged.items() if key >= range_start_ms}
+    if range_end_ms is not None:
+        merged = {key: row for key, row in merged.items() if key <= range_end_ms}
     ordered = [merged[key] for key in sorted(merged)]
     _atomic_rows(path, FUNDING_HEADER, (row.csv_row() for row in ordered))
     return len(ordered)

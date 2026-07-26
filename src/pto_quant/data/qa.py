@@ -10,6 +10,15 @@ from pto_quant.data.models import Kline
 INTERVAL_MS = {"1m": 60_000, "5m": 300_000, "15m": 900_000, "1h": 3_600_000}
 
 
+def last_complete_open_time(end_ms: int, interval: str) -> int | None:
+    """Return the last candle open whose close is at or before ``end_ms``."""
+
+    step = INTERVAL_MS[interval]
+    if end_ms < step - 1:
+        return None
+    return ((end_ms + 1) // step - 1) * step
+
+
 @dataclass(frozen=True)
 class QualityIssue:
     severity: str
@@ -56,14 +65,15 @@ def validate_klines(
                 )
             )
         if expected_end_ms is not None:
-            expected_last = expected_end_ms - (expected_end_ms % step)
-            if records[-1].open_time_ms != expected_last:
+            expected_last = last_complete_open_time(expected_end_ms, expected_interval)
+            actual_last = records[-1].open_time_ms
+            if expected_last is None or actual_last != expected_last:
                 issues.append(
                     QualityIssue(
                         "critical",
                         "range_end",
-                        records[-1].open_time_ms,
-                        f"expected {expected_last}, got {records[-1].open_time_ms}",
+                        actual_last,
+                        f"expected {expected_last}, got {actual_last}",
                     )
                 )
     seen: set[int] = set()
@@ -96,18 +106,25 @@ def validate_klines(
             row.volume,
             row.quote_volume,
         )
-        if not all(value.is_finite() for value in decimals):
+        all_finite = all(value.is_finite() for value in decimals)
+        if not all_finite:
             issues.append(
                 QualityIssue("critical", "non_finite", row.open_time_ms, "non-finite OHLCV")
             )
         prices = (row.open, row.high, row.low, row.close)
-        if any(value <= 0 for value in prices):
+        finite_prices = tuple(value for value in prices if value.is_finite())
+        if any(value <= 0 for value in finite_prices):
             issues.append(QualityIssue("critical", "price", row.open_time_ms, "non-positive price"))
-        highest = max(row.open, row.close, row.low)
-        lowest = min(row.open, row.close, row.high)
-        if row.high < highest or row.low > lowest or row.high < row.low:
-            issues.append(QualityIssue("critical", "ohlc", row.open_time_ms, "invalid OHLC"))
-        if row.volume < Decimal(0) or row.quote_volume < Decimal(0) or row.trades < 0:
+        if all_finite:
+            highest = max(row.open, row.close, row.low)
+            lowest = min(row.open, row.close, row.high)
+            if row.high < highest or row.low > lowest or row.high < row.low:
+                issues.append(QualityIssue("critical", "ohlc", row.open_time_ms, "invalid OHLC"))
+        finite_volumes = (row.volume, row.quote_volume)
+        if (
+            any(value.is_finite() and value < Decimal(0) for value in finite_volumes)
+            or row.trades < 0
+        ):
             issues.append(QualityIssue("critical", "volume", row.open_time_ms, "negative value"))
         if previous is not None:
             delta = row.open_time_ms - previous.open_time_ms

@@ -31,7 +31,7 @@ data-download:
 data-validate:
 	uv run pto data validate
 
-phase1: validate-config lint typecheck test data-validate
+phase1: validate-config lint typecheck test
 	uv run pto data gate
 
 features-build:

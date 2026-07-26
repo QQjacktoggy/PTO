@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import io
+import json
 import os
 import tempfile
 import urllib.error
@@ -91,17 +92,24 @@ class BinanceVisionClient:
         target = directory / f"{kind}_{month}.zip" if directory is not None else None
         manifest = target.with_suffix(".manifest.json") if target is not None else None
         if target is not None and manifest is not None and target.is_file() and manifest.is_file():
-            import json
-
-            evidence = json.loads(manifest.read_text(encoding="utf-8"))
-            payload = target.read_bytes()
-            actual = hashlib.sha256(payload).hexdigest()
-            if (
-                evidence.get("checksum_sha256") == actual
-                and evidence.get("url") == url
-                and evidence.get("member_name") == member_name
-            ):
-                return VisionArchive(kind, month, url, payload, actual, member_name)
+            try:
+                evidence = json.loads(manifest.read_text(encoding="utf-8"))
+                payload = target.read_bytes()
+                actual = hashlib.sha256(payload).hexdigest()
+                if (
+                    isinstance(evidence, dict)
+                    and evidence.get("checksum_sha256") == actual
+                    and evidence.get("url") == url
+                    and evidence.get("member_name") == member_name
+                    and evidence.get("kind") == kind
+                    and evidence.get("month") == month
+                    and evidence.get("bytes") == len(payload)
+                ):
+                    return VisionArchive(kind, month, url, payload, actual, member_name)
+            except (OSError, TypeError, ValueError, json.JSONDecodeError):
+                # A partial or malformed sidecar is recoverable evidence, not
+                # a reason to make the valid archive permanently unusable.
+                pass
         archive = self._archive(path, kind=kind, month=month, member_name=member_name)
         if directory is not None:
             save_immutable_archives([archive], directory)
@@ -173,7 +181,8 @@ def parse_vision_klines(
         opened = int(row["open_time"])
         if datetime.fromtimestamp(opened / 1000, tz=UTC).strftime("%Y-%m") != month_prefix:
             raise PublicDataError(f"kline timestamp outside archive month {archive.month}")
-        if start_ms <= opened <= end_ms:
+        close_time = int(row["close_time"])
+        if start_ms <= opened and close_time <= end_ms:
             records.append(
                 Kline.from_binance(
                     symbol,
@@ -185,7 +194,7 @@ def parse_vision_klines(
                         row["low"],
                         row["close"],
                         row["volume"],
-                        int(row["close_time"]),
+                        close_time,
                         row["quote_volume"],
                         int(row["count"]),
                     ],
@@ -220,36 +229,10 @@ def parse_vision_funding(
 
 
 def save_immutable_archives(archives: Iterable[VisionArchive], directory: Path) -> None:
-    import json
-
     directory.mkdir(parents=True, exist_ok=True)
     for archive in archives:
         path = directory / f"{archive.kind}_{archive.month}.zip"
         manifest_path = path.with_suffix(".manifest.json")
-        if path.exists():
-            if hashlib.sha256(path.read_bytes()).hexdigest() != archive.checksum:
-                # A prior interrupted write is not immutable evidence because it has
-                # no matching checksum manifest. Replace it safely.
-                if manifest_path.exists():
-                    raise ValueError(f"immutable raw artifact differs on retry: {path}")
-                path.unlink()
-            else:
-                if manifest_path.exists():
-                    continue
-        if not path.exists():
-            descriptor, temp_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=directory)
-            try:
-                with os.fdopen(descriptor, "wb") as stream:
-                    stream.write(archive.payload)
-                    stream.flush()
-                    os.fsync(stream.fileno())
-                if hashlib.sha256(Path(temp_name).read_bytes()).hexdigest() != archive.checksum:
-                    raise ValueError(f"temporary archive checksum mismatch: {path}")
-                os.replace(temp_name, path)
-            except BaseException:
-                Path(temp_name).unlink(missing_ok=True)
-                raise
-            path.chmod(0o444)
         evidence = {
             "schema_version": 1,
             "kind": archive.kind,
@@ -257,12 +240,48 @@ def save_immutable_archives(archives: Iterable[VisionArchive], directory: Path) 
             "url": archive.url,
             "member_name": archive.member_name,
             "checksum_sha256": archive.checksum,
-            "bytes": path.stat().st_size,
+            "bytes": len(archive.payload),
         }
-        payload = json.dumps(evidence, indent=2, sort_keys=True) + "\n"
-        descriptor = os.open(manifest_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o444)
+        existing_manifest: dict[str, object] | None = None
+        if manifest_path.is_file():
+            try:
+                parsed = json.loads(manifest_path.read_text(encoding="utf-8"))
+                if isinstance(parsed, dict):
+                    existing_manifest = parsed
+            except (OSError, TypeError, ValueError, json.JSONDecodeError):
+                existing_manifest = None
+
+        existing_hash = hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None
+        if existing_hash == archive.checksum and existing_manifest == evidence:
+            continue
+        if existing_manifest is not None and existing_manifest != evidence:
+            raise ValueError(f"immutable raw artifact differs on retry: {path}")
+
+        descriptor, temp_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=directory)
         try:
-            os.write(descriptor, payload.encode())
-            os.fsync(descriptor)
-        finally:
-            os.close(descriptor)
+            with os.fdopen(descriptor, "wb") as stream:
+                stream.write(archive.payload)
+                stream.flush()
+                os.fsync(stream.fileno())
+            temporary = Path(temp_name)
+            if hashlib.sha256(temporary.read_bytes()).hexdigest() != archive.checksum:
+                raise ValueError(f"temporary archive checksum mismatch: {path}")
+            os.replace(temp_name, path)
+        except BaseException:
+            Path(temp_name).unlink(missing_ok=True)
+            raise
+        path.chmod(0o444)
+
+        evidence["bytes"] = path.stat().st_size
+        manifest_payload = json.dumps(evidence, indent=2, sort_keys=True).encode() + b"\n"
+        descriptor, temp_name = tempfile.mkstemp(prefix=f".{manifest_path.name}.", dir=directory)
+        try:
+            with os.fdopen(descriptor, "wb") as stream:
+                stream.write(manifest_payload)
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.replace(temp_name, manifest_path)
+        except BaseException:
+            Path(temp_name).unlink(missing_ok=True)
+            raise
+        manifest_path.chmod(0o444)

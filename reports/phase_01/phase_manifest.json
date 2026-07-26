@@ -1,30 +1,15 @@
 {
   "artifact_hashes": {
-    "evidence_index": "29540f40b9e4587021c122aae05499eb514f0b51276e2e05eb9c8216d8d56d5e",
-    "gate": "012e53a92f90842d20da4d108636cfabf68daace36b1bbe634c8e9b38dc23f6f",
-    "phase_report": "f48abec933d5b58bc7b0963c2d92c4f64fad5d0bc6344593082e9f645d9a0f5f",
-    "status": "d17b3ee5499b7e8fb951d647e440ab3dc96513f9ccfc5af152b2c749491d3198"
+    "evidence_index": "672ca6cee74b47ab29a564f575a3e49e54310e90a6846ccc46d53de2addfce2b",
+    "gate": "4fb669f74b4910976ea835bbf0b16021e31f4f2ff8c2f250fa886da1040187a2",
+    "phase_report": "7e389dd89aae35caf193231cf1b9a51be197e334790471ace44bfc15dbd1e8f1",
+    "status": "1d50784ab5327761f33675140d4642940a45f3f39f3a2a7a8d0fbee75d76bcf2"
   },
   "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
-  "created_at": "2026-07-25T07:32:25Z",
-  "data_hashes": {
-    "BTCUSDC_1m": "1223cb858df6ad59114adaa6fe6b7549bd1b2eba020f4a8a1fce7ba3326c78a5",
-    "BTCUSDC_funding": "54b7bd9d72f58ff74448db5ec001d419df0af8829442abfbaff6d0554bfcf7c4",
-    "ETHUSDC_1m": "94d75c471ba66a75c3db5d128c2c96e22e61e4e68e85689fe712259e7a8ee78a",
-    "ETHUSDC_funding": "27fba41eccbcd28ced67f54c440a9038698194212f4333beac6f2558d7793d46"
-  },
-  "evidence_manifest_count": 86,
-  "git_sha": "d1dfd9935b5daf4f4e2a6d971afa4b9a30810154",
-  "package_versions": {
-    "PyYAML": "6.0.3",
-    "jsonschema": "4.26.0",
-    "mypy": "1.20.2",
-    "pto-quant": "0.1.0",
-    "pytest": "8.4.2",
-    "python": "3.12.13",
-    "ruff": "0.16.0"
-  },
-  "run_id": "phase-01-review-fixes-pass",
-  "schema_version": 2,
-  "seed": 20260725
+  "created_at": "2026-07-26T00:43:55.542618Z",
+  "git_sha": "c26b9c2ecc6fd0e554f562ec0305255f2156ea9c",
+  "implementation_git_sha": "c26b9c2ecc6fd0e554f562ec0305255f2156ea9c",
+  "phase": 1,
+  "schema_version": 3,
+  "status": "PASS"
 }
