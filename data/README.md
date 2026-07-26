@@ -1,7 +1,34 @@
 # Data Governance
 
-This directory is the boundary for research datasets. Phase 0 does not download
-market data.
+This directory is the boundary for research datasets. Phase 1 provides the
+public-data pipeline; downloaded data remains local and ignored by Git.
+
+## Phase 1 commands and layout
+
+```bash
+uv run pto data acquire \
+  --start 2024-01-01T00:00:00Z \
+  --end 2024-01-31T23:59:59.999Z
+uv run pto data validate
+```
+
+The default acquisition covers configured `ETHUSDC` and `BTCUSDC`. It requires
+no credentials. Re-running resumes after the newest normalized 1m row, merges
+by timestamp, and does not duplicate rows.
+
+```text
+data/raw/binance_futures/<SYMBOL>/        immutable JSON responses
+data/normalized/<SYMBOL>/1m.csv           normalized UTC source series
+data/normalized/<SYMBOL>/{5m,15m,1h}.csv  completed-window resamples
+data/normalized/<SYMBOL>/funding.csv
+data/normalized/<SYMBOL>/metadata.json
+data/normalized/<SYMBOL>/qa.json
+data/manifests/<SYMBOL>/*.manifest.json
+```
+
+Validation exits non-zero for empty data, gaps, duplicates, wrong symbols or
+intervals, non-UTC boundaries, bad close times, invalid OHLC, and negative
+volume or trade counts.
 
 ## Raw data is immutable
 

@@ -25,6 +25,27 @@ class HoldoutManifestError(ValueError):
     """Raised when the frozen holdout manifest is absent or invalid."""
 
 
+# These coordinates are part of the trusted Phase 1 bootstrap.  They are
+# intentionally not read from a user-provided config directory: a normal data
+# command must not be able to move its own research boundary around a sealed
+# holdout by editing YAML.
+TRUSTED_PHASE1_START_MS = 1_704_412_800_000  # 2024-01-05T00:00:00Z
+TRUSTED_PHASE1_END_MS = 1_751_327_999_999  # 2025-06-30T23:59:59.999Z
+TRUSTED_PHASE1_SYMBOLS = ("ETHUSDC", "BTCUSDC")
+
+
+def trusted_phase1_guard() -> HoldoutGuard:
+    """Build the default-deny guard used by ordinary Phase 1 commands."""
+
+    return HoldoutGuard(
+        trusted_research_range=(TRUSTED_PHASE1_START_MS, TRUSTED_PHASE1_END_MS),
+        # The final holdout is deliberately represented as a sealed date
+        # range, not as an editable CLI/config upper bound.  The exact
+        # holdout bootstrap remains a later, explicit workflow.
+        sealed_date_ranges=((date(2026, 1, 1), date(9999, 12, 31)),),
+    )
+
+
 def _utc_now() -> datetime:
     return datetime.now(UTC)
 
@@ -146,6 +167,7 @@ class HoldoutGuard:
         *,
         sealed_roots: Sequence[Path] = (),
         sealed_date_ranges: Sequence[tuple[date, date]] = (),
+        trusted_research_range: tuple[int, int] | None = None,
     ) -> None:
         self._sealed_roots = tuple(path.resolve(strict=False) for path in sealed_roots)
         ranges: list[_SealedDateRange] = []
@@ -154,6 +176,28 @@ class HoldoutGuard:
                 raise ValueError("sealed date range end precedes start")
             ranges.append(_SealedDateRange(start, end))
         self._sealed_date_ranges = tuple(ranges)
+        if trusted_research_range is not None:
+            start_ms, end_ms = trusted_research_range
+            if end_ms < start_ms:
+                raise ValueError("trusted research range end precedes start")
+        self._trusted_research_range = trusted_research_range
+
+    def assert_research_interval(self, start_ms: int, end_ms: int) -> None:
+        """Reject intervals outside the trusted ordinary-research window."""
+
+        trusted = self._trusted_research_range
+        if trusted is None or start_ms > end_ms:
+            raise HoldoutAccessDenied("requested interval is outside the trusted research boundary")
+        trusted_start_ms, trusted_end_ms = trusted
+        if start_ms < trusted_start_ms or end_ms > trusted_end_ms:
+            raise HoldoutAccessDenied("requested interval is outside the trusted research boundary")
+
+    def assert_configured_research_interval(self, start_ms: int, end_ms: int) -> None:
+        """Require editable governance settings to match the trusted bootstrap."""
+
+        trusted = self._trusted_research_range
+        if trusted is None or (start_ms, end_ms) != trusted:
+            raise HoldoutAccessDenied("configured research boundary is not trusted")
 
     def is_sealed_path(self, path: Path) -> bool:
         candidate = path.resolve(strict=False)

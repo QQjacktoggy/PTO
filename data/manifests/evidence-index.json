@@ -1,0 +1,1411 @@
+{
+  "generated_at": "2026-07-26T00:43:55.542618Z",
+  "implementation_git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+  "manifests": [
+    {
+      "bytes": 643,
+      "checksum_sha256": "0379f33df863c337d7def0ef884bb00965355413850c8e1438b03431d6f04e08",
+      "manifest": {
+        "checksum_sha256": "0899b4070aa2a3f6b3bee66b35fad2e25a132dabe5ac552a30b8738b12410d80",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:24.523482Z",
+        "file_size_bytes": 7675037,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "15m",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 52128,
+        "schema_version": 1,
+        "source": "derived:completed-window-resample",
+        "source_artifacts": [
+          "data/normalized/BTCUSDC/1m.csv"
+        ],
+        "symbol": "BTCUSDC"
+      },
+      "path": "data/manifests/BTCUSDC/15m.manifest.json"
+    },
+    {
+      "bytes": 642,
+      "checksum_sha256": "94f529662cdf0efe6e82415c6920b0da1894b3f7dc529650bc487654ea14166a",
+      "manifest": {
+        "checksum_sha256": "df18c9cf0d61e632650966d1b5cd55a7b317d42d6b1811468c4668c682e29e17",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:25.225771Z",
+        "file_size_bytes": 1930440,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "1h",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 13032,
+        "schema_version": 1,
+        "source": "derived:completed-window-resample",
+        "source_artifacts": [
+          "data/normalized/BTCUSDC/1m.csv"
+        ],
+        "symbol": "BTCUSDC"
+      },
+      "path": "data/manifests/BTCUSDC/1h.manifest.json"
+    },
+    {
+      "bytes": 1827,
+      "checksum_sha256": "f2009c0a2c2ece890a680d984ddc8d9977fa5b2d9c60ae0ef2a495082f6101f7",
+      "manifest": {
+        "checksum_sha256": "1223cb858df6ad59114adaa6fe6b7549bd1b2eba020f4a8a1fce7ba3326c78a5",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:25.308710Z",
+        "file_size_bytes": 111417217,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "1m",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 781920,
+        "schema_version": 1,
+        "source": "binance-vision:monthly/klines",
+        "source_artifacts": [
+          "data/raw/binance_vision/BTCUSDC/klines_2024-01.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-02.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-03.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-04.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-05.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-06.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-07.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-08.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-09.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-10.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-11.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2024-12.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2025-01.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2025-02.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2025-03.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2025-04.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2025-05.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/klines_2025-06.manifest.json"
+        ],
+        "symbol": "BTCUSDC"
+      },
+      "path": "data/manifests/BTCUSDC/1m.manifest.json"
+    },
+    {
+      "bytes": 644,
+      "checksum_sha256": "4ae589c2ea6d5405ca9980132649c2c950906a5b8047731cd3e8ec93f55ca740",
+      "manifest": {
+        "checksum_sha256": "21ddc051908fedbeb83b2765f12bf00db7bed081b3ba41be71dd3723dbfeb2c9",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:23.037422Z",
+        "file_size_bytes": 22627341,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "5m",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 156384,
+        "schema_version": 1,
+        "source": "derived:completed-window-resample",
+        "source_artifacts": [
+          "data/normalized/BTCUSDC/1m.csv"
+        ],
+        "symbol": "BTCUSDC"
+      },
+      "path": "data/manifests/BTCUSDC/5m.manifest.json"
+    },
+    {
+      "bytes": 1849,
+      "checksum_sha256": "4c2765748bf15b147173681635e41b13a3a7c4ffbedaa7bb9080c8f2d3b4017c",
+      "manifest": {
+        "checksum_sha256": "54b7bd9d72f58ff74448db5ec001d419df0af8829442abfbaff6d0554bfcf7c4",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:25.310745Z",
+        "file_size_bytes": 92209,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "funding",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 1629,
+        "schema_version": 1,
+        "source": "binance-vision:monthly/fundingRate",
+        "source_artifacts": [
+          "data/raw/binance_vision/BTCUSDC/funding_2024-01.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-02.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-03.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-04.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-05.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-06.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-07.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-08.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-09.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-10.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-11.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2024-12.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2025-01.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2025-02.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2025-03.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2025-04.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2025-05.manifest.json",
+          "data/raw/binance_vision/BTCUSDC/funding_2025-06.manifest.json"
+        ],
+        "symbol": "BTCUSDC"
+      },
+      "path": "data/manifests/BTCUSDC/funding.manifest.json"
+    },
+    {
+      "bytes": 594,
+      "checksum_sha256": "fdb0c3e0140b4a56de8f25d5629880f75cad0910ccc9bd6a4393afb93fe0862b",
+      "manifest": {
+        "checksum_sha256": "e4eb641fa5cc89f49ea159b7ec582ba931b64537c053d8c76d12e587b77bfd94",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:25.311747Z",
+        "file_size_bytes": 493,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "point-in-time",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 1,
+        "schema_version": 1,
+        "source": "pto:archive-provenance",
+        "source_artifacts": [],
+        "symbol": "BTCUSDC"
+      },
+      "path": "data/manifests/BTCUSDC/metadata.manifest.json"
+    },
+    {
+      "bytes": 598,
+      "checksum_sha256": "738de173dabe47038f99e87eb4a7ff2a942abed637ae7f54fca0e6ed5d8ae468",
+      "manifest": {
+        "checksum_sha256": "ff4a0e3870b8fc64693f103758d6d15d0f3c5108424199aedc8085b69d2b4ff9",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:25.312795Z",
+        "file_size_bytes": 159,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "point-in-time",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 781920,
+        "schema_version": 1,
+        "source": "pto:phase1-validation",
+        "source_artifacts": [],
+        "symbol": "BTCUSDC"
+      },
+      "path": "data/manifests/BTCUSDC/qa.manifest.json"
+    },
+    {
+      "bytes": 643,
+      "checksum_sha256": "494cb9d6457a1fd9dd11d456a3bbaf4c2624c49ce5d4f0a91d8a0e5d8b62e912",
+      "manifest": {
+        "checksum_sha256": "02a45a6f27de31112a884fa0eb10149396bc7961fcaa9f43ae6375bc5efd8078",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:01.848625Z",
+        "file_size_bytes": 7747535,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "15m",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 52128,
+        "schema_version": 1,
+        "source": "derived:completed-window-resample",
+        "source_artifacts": [
+          "data/normalized/ETHUSDC/1m.csv"
+        ],
+        "symbol": "ETHUSDC"
+      },
+      "path": "data/manifests/ETHUSDC/15m.manifest.json"
+    },
+    {
+      "bytes": 642,
+      "checksum_sha256": "ec91c0b83575e05fcd556580d8f5b148c2990b89957f109aeed54af8ed9cede8",
+      "manifest": {
+        "checksum_sha256": "d7471780d07ddfb76123119fb6cd4b778b2c68e3ecb483f5e19d0f6444ac8979",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:02.651056Z",
+        "file_size_bytes": 1948767,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "1h",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 13032,
+        "schema_version": 1,
+        "source": "derived:completed-window-resample",
+        "source_artifacts": [
+          "data/normalized/ETHUSDC/1m.csv"
+        ],
+        "symbol": "ETHUSDC"
+      },
+      "path": "data/manifests/ETHUSDC/1h.manifest.json"
+    },
+    {
+      "bytes": 1827,
+      "checksum_sha256": "37415a15b5c5ef856d9f1a7a93ee60743296ee39b631dff3c81b6a12868dcfc7",
+      "manifest": {
+        "checksum_sha256": "94d75c471ba66a75c3db5d128c2c96e22e61e4e68e85689fe712259e7a8ee78a",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:02.733441Z",
+        "file_size_bytes": 112431064,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "1m",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 781920,
+        "schema_version": 1,
+        "source": "binance-vision:monthly/klines",
+        "source_artifacts": [
+          "data/raw/binance_vision/ETHUSDC/klines_2024-01.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-02.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-03.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-04.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-05.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-06.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-07.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-08.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-09.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-10.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-11.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2024-12.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2025-01.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2025-02.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2025-03.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2025-04.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2025-05.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/klines_2025-06.manifest.json"
+        ],
+        "symbol": "ETHUSDC"
+      },
+      "path": "data/manifests/ETHUSDC/1m.manifest.json"
+    },
+    {
+      "bytes": 644,
+      "checksum_sha256": "35fa7647809d894f72c5a0b414f7e8f15c3428acf391ce4edfa847eccf1b66af",
+      "manifest": {
+        "checksum_sha256": "301f6b824452805d5cc81a61ff983dcb68ee510b451beef54d4f11664264301f",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:00.653799Z",
+        "file_size_bytes": 22847429,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "5m",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 156384,
+        "schema_version": 1,
+        "source": "derived:completed-window-resample",
+        "source_artifacts": [
+          "data/normalized/ETHUSDC/1m.csv"
+        ],
+        "symbol": "ETHUSDC"
+      },
+      "path": "data/manifests/ETHUSDC/5m.manifest.json"
+    },
+    {
+      "bytes": 1849,
+      "checksum_sha256": "af8c9dabdbd8148cf6220405dce5c38daf7a4b6b51fb88b0fb83702635945ff7",
+      "manifest": {
+        "checksum_sha256": "27fba41eccbcd28ced67f54c440a9038698194212f4333beac6f2558d7793d46",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:02.735130Z",
+        "file_size_bytes": 92196,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "funding",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 1629,
+        "schema_version": 1,
+        "source": "binance-vision:monthly/fundingRate",
+        "source_artifacts": [
+          "data/raw/binance_vision/ETHUSDC/funding_2024-01.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-02.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-03.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-04.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-05.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-06.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-07.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-08.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-09.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-10.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-11.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2024-12.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2025-01.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2025-02.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2025-03.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2025-04.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2025-05.manifest.json",
+          "data/raw/binance_vision/ETHUSDC/funding_2025-06.manifest.json"
+        ],
+        "symbol": "ETHUSDC"
+      },
+      "path": "data/manifests/ETHUSDC/funding.manifest.json"
+    },
+    {
+      "bytes": 594,
+      "checksum_sha256": "cdb86ae5629d2b19f7a4170ad525a55051e94e839d7b4ae4ccbd2340ac5c0f55",
+      "manifest": {
+        "checksum_sha256": "13a0c6b241a9b9ab8e1b91bcc4f9eefbc5c971241695894d0c2b690dcbb56168",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:02.736254Z",
+        "file_size_bytes": 493,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "point-in-time",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 1,
+        "schema_version": 1,
+        "source": "pto:archive-provenance",
+        "source_artifacts": [],
+        "symbol": "ETHUSDC"
+      },
+      "path": "data/manifests/ETHUSDC/metadata.manifest.json"
+    },
+    {
+      "bytes": 598,
+      "checksum_sha256": "19205acfee2cda1adf47eb4d36b4f6c95eba6a9e34d6a460664b0e5b98396a08",
+      "manifest": {
+        "checksum_sha256": "ff4a0e3870b8fc64693f103758d6d15d0f3c5108424199aedc8085b69d2b4ff9",
+        "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+        "created_at": "2026-07-26T00:39:02.737222Z",
+        "file_size_bytes": 159,
+        "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+        "interval": "point-in-time",
+        "market": "binance_usd_m_futures",
+        "quality_status": "PASS",
+        "range_end_ms": 1751327999999,
+        "range_start_ms": 1704412800000,
+        "rows": 781920,
+        "schema_version": 1,
+        "source": "pto:phase1-validation",
+        "source_artifacts": [],
+        "symbol": "ETHUSDC"
+      },
+      "path": "data/manifests/ETHUSDC/qa.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "e827890d2197c5255f53b9cd2dc625815de0a94dbb5e3aaa46db928567b8c4b3",
+      "manifest": {
+        "bytes": 678,
+        "checksum_sha256": "e32f68d2a80d1fca8317a3d2d849606bfb0569e9045b618ed8da26906f9ccb9d",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-01.csv",
+        "month": "2024-01",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-01.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-01.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "985d799a13771eb138be27922f3abae018e731dbc131d2b9d417286d7062b93b",
+      "manifest": {
+        "bytes": 737,
+        "checksum_sha256": "c420e6b87e70a876e76e53ed5ce18d4971f3713ededea67ee4439575252cfd15",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-02.csv",
+        "month": "2024-02",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-02.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-02.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "d92593c9ad8951984a7447e5efa25dba7624921d13b9688ebf65f5823423e214",
+      "manifest": {
+        "bytes": 898,
+        "checksum_sha256": "dc3eadef5acada9abec354657f28390246e9dff163709f8a25de0f733bac917e",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-03.csv",
+        "month": "2024-03",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-03.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-03.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "9ca44e5696cfc4c9787282ab2987bc8550610c9fb6942117c0ae615cefd2d98d",
+      "manifest": {
+        "bytes": 814,
+        "checksum_sha256": "3e3ba3e29fb81b86f3e5fd4e1c973e8de05d623b1e253fda45cef5bca56f7100",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-04.csv",
+        "month": "2024-04",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-04.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-04.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "441cd1794cf729596df7d7bfc588a35a8d1e33e64d0df4d06cfb94e2c5476811",
+      "manifest": {
+        "bytes": 809,
+        "checksum_sha256": "693982816539b9bdb327fc7c93f2e913abe25a59f83bfd3af9b0116b8555c8f2",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-05.csv",
+        "month": "2024-05",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-05.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-05.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "f12772c48c0b9ad1dc651e150a567ce4c0255d3bd58502ca175c3b8b687de33c",
+      "manifest": {
+        "bytes": 666,
+        "checksum_sha256": "fda9f665d4c119bb0660a638a927ae2c7e3d81875d2f547c14a50428fe04fdfd",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-06.csv",
+        "month": "2024-06",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-06.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-06.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "16fa641295e45d538f81be4084441fe029bbad53deca5dae5cf4da7f168f6465",
+      "manifest": {
+        "bytes": 833,
+        "checksum_sha256": "928a57b4e155fcc481f66a1e6c1484d2cf416549ee6fabebe45bf6ee3178cced",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-07.csv",
+        "month": "2024-07",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-07.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-07.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "a5de0e25e1ae4c03037095fab5d61e2623d5e78888a0155195304b6fbcc2b6c6",
+      "manifest": {
+        "bytes": 946,
+        "checksum_sha256": "dd6bd4104ca5b8a50408dc194d0b954b3b6db2242d8cfea168b146d425ec1695",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-08.csv",
+        "month": "2024-08",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-08.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-08.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "b45d7461c743a4b3b782bbed12faa958f7fa3b8cf6d3d5ba364d17350aaa6ee9",
+      "manifest": {
+        "bytes": 905,
+        "checksum_sha256": "a3add9549d329ca53598b65e902fec1b5e07ef7190c67f49f7490fe3ccee73fc",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-09.csv",
+        "month": "2024-09",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-09.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-09.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "81fe17b1fbed62ed357f78c7c391ca794bad7cf9cf02437132f5a115506190ba",
+      "manifest": {
+        "bytes": 785,
+        "checksum_sha256": "bdf4021db75e9bf70273769540d6100fea1eba2afe836df83aaae50a5de60a9d",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-10.csv",
+        "month": "2024-10",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-10.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-10.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "bcf326e078ff2cf6eb528b12219c609e7d3f1a32cf6cd08ec8ad65c477cef35b",
+      "manifest": {
+        "bytes": 726,
+        "checksum_sha256": "3a5faf976cfffa308bdc2fd3b4c7a6e6fb1f97ada045691761d620629ea14131",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-11.csv",
+        "month": "2024-11",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-11.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-11.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "13282c6121eedb0fdee11b6150721f46bc43985e81001c50f2eb4244502d17a9",
+      "manifest": {
+        "bytes": 751,
+        "checksum_sha256": "e34055f92772e79bb0c223e96016e38bd703a2bb3bcc3ad3ff2431e27e9bcf5d",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2024-12.csv",
+        "month": "2024-12",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2024-12.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2024-12.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "34c31b40f500bba3a06b1ab09101c4af1eecb9bc2ecd01b3687ca2876fe8697d",
+      "manifest": {
+        "bytes": 776,
+        "checksum_sha256": "7eea8b417091ae4947a6692f53a67f762270c6ca068e5d8146c4c889eaf2e926",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2025-01.csv",
+        "month": "2025-01",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2025-01.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2025-01.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "5a2dd7ff1bd2ad3a418276abb00adc6839844b63c43e3e8787e95d2fcf8c09f0",
+      "manifest": {
+        "bytes": 823,
+        "checksum_sha256": "ce9b31ba271524017f409f74c939fb281418a9b0967a72cfdbcb76d9923a6c6a",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2025-02.csv",
+        "month": "2025-02",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2025-02.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2025-02.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "da18803aabb2d631cc5e040cd76678ccc31eeaebdd293fea7672f0f005075872",
+      "manifest": {
+        "bytes": 933,
+        "checksum_sha256": "5c3b94928c85a4d5735db9dd5d2cf6c3843b2d319aa727769059c25893e95e7e",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2025-03.csv",
+        "month": "2025-03",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2025-03.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2025-03.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "06cf743566b5a33650b9323db430eb58f89aa533647b82da1c958ddbddf4e51a",
+      "manifest": {
+        "bytes": 928,
+        "checksum_sha256": "99e3e66c3155e2042cff872500e193303aa0cbda6d04c6dd4325ef31d4b1894a",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2025-04.csv",
+        "month": "2025-04",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2025-04.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2025-04.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "9dbd3e70cdcce2d537f274a28f0b9a58bd1f675933242990518b58a13e09bc69",
+      "manifest": {
+        "bytes": 970,
+        "checksum_sha256": "bcf2299a86fcefd8bd85d07a2934b9d5e539c277717eb3e61a6ec21c9df369aa",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2025-05.csv",
+        "month": "2025-05",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2025-05.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2025-05.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "8f6b1d15d845a879bdf5f603e016799d84cc765052dacb6f8609a3d2461f3a7c",
+      "manifest": {
+        "bytes": 946,
+        "checksum_sha256": "2fda3f9eb4155d947b0a24e114e0b3ab5c7fb1a2bca21345b8ab3661c9250fbc",
+        "kind": "funding",
+        "member_name": "BTCUSDC-fundingRate-2025-06.csv",
+        "month": "2025-06",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/BTCUSDC/BTCUSDC-fundingRate-2025-06.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/funding_2025-06.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "2d9483d9851b9db9c7de94664b60e25d95f498795c3a7318ac743cff613dd033",
+      "manifest": {
+        "bytes": 1357920,
+        "checksum_sha256": "d413abdebecffddee90fbcc267d8d93ce45b6cf7faf97c9fef0423258140a46d",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-01.csv",
+        "month": "2024-01",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-01.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-01.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "4bb2a504caa9c85b9451aa55aa51a6f0106702a2ef3fc915080b70e77a99004d",
+      "manifest": {
+        "bytes": 1484245,
+        "checksum_sha256": "dbcbdd372c39b5e65f9e18ec88822f7b154a194bbd2048c0897ae7885d0ff9c4",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-02.csv",
+        "month": "2024-02",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-02.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-02.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "ec1585e91b87a33602fbfb4c9bb84b274ef754fa2fdb2d8b34eab470df1ea978",
+      "manifest": {
+        "bytes": 1720235,
+        "checksum_sha256": "f628f8a1ead3120b193cd973e7d9d6d12c1fbc0fb13c74deab38a161b295b5f7",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-03.csv",
+        "month": "2024-03",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-03.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-03.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "0076de0bb4776ab71e7ce266b87a0a08a467fb6f0854ed89ebb06e8a5cb38545",
+      "manifest": {
+        "bytes": 1672930,
+        "checksum_sha256": "d6f59b933c9fa7fbc2d67b6716204972c14ab4e085bda02acf06def4632e36e4",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-04.csv",
+        "month": "2024-04",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-04.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-04.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "3afa0ef37156f175599edfdb65c87681449eafea0bf5d4f80359b5978c9f6fd4",
+      "manifest": {
+        "bytes": 1731910,
+        "checksum_sha256": "1af14653a49c30dff623d3ffc849fe81e3dab82865fe99e480090755461138d3",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-05.csv",
+        "month": "2024-05",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-05.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-05.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "61feb9377403181fb70279dcfd11625ebdb63ae7964a200c904dfa0b959bd011",
+      "manifest": {
+        "bytes": 1631927,
+        "checksum_sha256": "2b6783eadbdf51f295d7e18568765f77fded3cb66714e1d3b633202dae3e1124",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-06.csv",
+        "month": "2024-06",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-06.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-06.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "9e2422fd4b717f9a82467f5d7a8abf404eb53d6b5333704aa5246b02ed9a2053",
+      "manifest": {
+        "bytes": 1737980,
+        "checksum_sha256": "7ec13b195de866c7e97adfb9c4cfbfb12883b062362d65b5bd1a25bba714d6d3",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-07.csv",
+        "month": "2024-07",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-07.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-07.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "d305c46456f243085704c4c41f7c7c244cd377bd2f38263bb2826cd987453a8a",
+      "manifest": {
+        "bytes": 1700858,
+        "checksum_sha256": "ff1e48a39492ad89ba7e817f6889204f1d065d0435c4987cfd2cf2516208f412",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-08.csv",
+        "month": "2024-08",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-08.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-08.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "d177e2e6329fad69e99ca58ccaf2aa25b358a35b814220dbcbae9660b4220ce8",
+      "manifest": {
+        "bytes": 1596337,
+        "checksum_sha256": "48abf56ed674bd26c3c9a9a10c6630cf4670e895c38f9e5f5d4ec7557b0ec1a9",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-09.csv",
+        "month": "2024-09",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-09.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-09.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "7625cd1e136060a624637f79cee904024ad389a43dfc99ffba7c211950568294",
+      "manifest": {
+        "bytes": 1632874,
+        "checksum_sha256": "973ab3d4195dba0f05989d4dfe96cd4e2ce069912032dace2828d2e52bf0bd62",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-10.csv",
+        "month": "2024-10",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-10.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-10.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "4cb61343110417482d6736f15d4573b24145266708b2d9f10d860ad23cc9bed1",
+      "manifest": {
+        "bytes": 1658512,
+        "checksum_sha256": "f57208f9716a754532101c4ed66c67fb08a56e1d972f2d5c3facafc893e0c2e9",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-11.csv",
+        "month": "2024-11",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-11.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-11.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "9da9071dfa48e84530df387c1c43de63300fa9ee64680dd79822da44d60acc6f",
+      "manifest": {
+        "bytes": 1703468,
+        "checksum_sha256": "3c504ad22b9669b1dc2917649efc81f4dafadbad31da8525ea7a757c64e94e87",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2024-12.csv",
+        "month": "2024-12",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2024-12.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2024-12.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "44a8a7f6bc1bb080521a934c98bde7216753b81f49c70f13fd9f72946ae330ad",
+      "manifest": {
+        "bytes": 1700436,
+        "checksum_sha256": "8bd7fc0e939158a9d8e4da74595a47a84392b980e06586ea08bd82ca6facd0e8",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2025-01.csv",
+        "month": "2025-01",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2025-01.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2025-01.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "b633547c13980fe23748a0ba58b82d4181bbf50c3659c49270ba68aeae8caa5a",
+      "manifest": {
+        "bytes": 1508334,
+        "checksum_sha256": "cd319cfbfa06a017b17e44c4dd54057072f28a6ce49d0a51034e83a73408f8a3",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2025-02.csv",
+        "month": "2025-02",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2025-02.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2025-02.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "15be4e040e03178731f095364803e53dac8df6d9b8f69620c9d1d20157c169f7",
+      "manifest": {
+        "bytes": 1734149,
+        "checksum_sha256": "b11c9443cfde0a86a54523d3e8a236a21c60e761089a72e130bdab577e0d11e7",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2025-03.csv",
+        "month": "2025-03",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2025-03.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2025-03.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "676572eeae0bb22b37091c1dff16def045278599ddaffd6f990c9a9bc77bc088",
+      "manifest": {
+        "bytes": 1695666,
+        "checksum_sha256": "2b668de4857eff655a97f4dd82afe9d4f8734c35230672c3464042c5fa59e49d",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2025-04.csv",
+        "month": "2025-04",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2025-04.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2025-04.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "46bb698cfd30dc1f8ddd51d2f8584b8e344ef481875f885f8ae59f854f07cf04",
+      "manifest": {
+        "bytes": 1755109,
+        "checksum_sha256": "2445920947f1da23671ce040b274840d964d4191fedbdf9be9441e4bfed526d2",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2025-05.csv",
+        "month": "2025-05",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2025-05.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2025-05.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "008feb31f398f21e62ad29798f3fb3cad5b9b06667215e6c3d130c53efaf97b9",
+      "manifest": {
+        "bytes": 1670621,
+        "checksum_sha256": "9108adb6449741474ab1c62d59a76bee17336f985e22469108e9de8cc1e182c3",
+        "kind": "klines",
+        "member_name": "BTCUSDC-1m-2025-06.csv",
+        "month": "2025-06",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/BTCUSDC/1m/BTCUSDC-1m-2025-06.zip"
+      },
+      "path": "data/raw/binance_vision/BTCUSDC/klines_2025-06.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "4f09eb101f826fb22b8bafe50c93c7730a5bf5f6ab051755cf4d3ae7d3fc6bc2",
+      "manifest": {
+        "bytes": 615,
+        "checksum_sha256": "2c580d5eaab553b122756b1e1925ed9cc39b6212eb6e5c1d2051fea843b6b4a3",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-01.csv",
+        "month": "2024-01",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-01.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-01.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "d1763c475ba394e43c12c43924e4cb37e049ed85af438da9f8703458646dcfa4",
+      "manifest": {
+        "bytes": 727,
+        "checksum_sha256": "11c24bdc4bb4e3fb838757367235a0fd6d90adc0a5176500e5055a0f13a815bf",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-02.csv",
+        "month": "2024-02",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-02.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-02.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "6a3477ec9a1b097eb9904f1ed2684b56e6a844ceed0f92d8c659f0a530b3d24c",
+      "manifest": {
+        "bytes": 912,
+        "checksum_sha256": "802515732d44ec2b198b42bfc651eaf50c9c5ac28d0d5b381b04db4e322e3e2b",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-03.csv",
+        "month": "2024-03",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-03.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-03.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "b5bfe6cb7baedfb1eb508b6e20b054f7015d761eeb0f231177f41ffc2a03aae4",
+      "manifest": {
+        "bytes": 809,
+        "checksum_sha256": "0d17025f7471853c1ce1f8859221d7e214fbf6fa685958ae916860daf94fab96",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-04.csv",
+        "month": "2024-04",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-04.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-04.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "a0103945e6c1b87f6bbff4b34fce9a908074bbdac3832969f03f000b4bd2607b",
+      "manifest": {
+        "bytes": 743,
+        "checksum_sha256": "9ec0eca79217d3aff804e6a52fb53508d334cc31c8125d3cf0f737e4103f2f52",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-05.csv",
+        "month": "2024-05",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-05.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-05.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "e2e4b321c104622a623c7d6036361b7e789dccfd0cbf6d6cd359f2693e779cec",
+      "manifest": {
+        "bytes": 671,
+        "checksum_sha256": "b40103e42259834112abd5ce9b91120c588c89658f3a17eff6c8a1baf626c439",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-06.csv",
+        "month": "2024-06",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-06.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-06.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "b3d0d3a0a48f26e689f1ae1f2c6febf47ba489cf92105135f621479978bc8126",
+      "manifest": {
+        "bytes": 851,
+        "checksum_sha256": "4fa9272609380632c5c8e4a153690de3824d3bec5fc6bbf51fc04080c0ab2175",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-07.csv",
+        "month": "2024-07",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-07.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-07.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "cfaab750d31f5e8d79df0edf0671f9e8e3ff3f98d6e4c3ca0d29561303750e49",
+      "manifest": {
+        "bytes": 928,
+        "checksum_sha256": "91177d1ff106af19d43024783e067597d331a0135696810a74c72658ded46f77",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-08.csv",
+        "month": "2024-08",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-08.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-08.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "af17aebb1896be10c23488844ee2618adde8f374760d9a6eaffcf19b1ae3f84e",
+      "manifest": {
+        "bytes": 906,
+        "checksum_sha256": "fc08aca07480ee602cbd0a530ce52f50d5f3625bdb8d4d944ef8b48ff57ce65c",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-09.csv",
+        "month": "2024-09",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-09.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-09.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "2169b521e1e7702ec6a7545111b9bf03462c77bc59c24433a15db849fcbfc564",
+      "manifest": {
+        "bytes": 759,
+        "checksum_sha256": "ce3989a84eb2f8ec2b8b88108883b136d0c4b83d7187a9dd12d5720f213d0181",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-10.csv",
+        "month": "2024-10",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-10.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-10.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "55185e680be0aa242c53d8791ec9a88dc7df6e54172dc97821fb0c78de17ee15",
+      "manifest": {
+        "bytes": 751,
+        "checksum_sha256": "ef97d0397de6108821a69d3ed92b5ee41ff19a0e217fd83302998f17e4d68b34",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-11.csv",
+        "month": "2024-11",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-11.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-11.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "25056b9bb756c989fb20c89f00912a336ff10747f4578405557e4a91bd2ebc1a",
+      "manifest": {
+        "bytes": 717,
+        "checksum_sha256": "5ab669aa4940d123c3a8dc6966e93f216018ae1e80927ad87b28c24b0ec3e0cd",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2024-12.csv",
+        "month": "2024-12",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2024-12.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2024-12.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "dc692b85b76e211fa194ad511885293c490f12de6fc5ca12a5f0267d995502a9",
+      "manifest": {
+        "bytes": 731,
+        "checksum_sha256": "24263ec12456032f434252a27fb6c76500f5c2bd34c9b3503d6d0fd5612e63dc",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2025-01.csv",
+        "month": "2025-01",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2025-01.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2025-01.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "d7a0fa403a5221b7e3232f8d60e5bbd462da8159773acabf03d9a34e5cc60094",
+      "manifest": {
+        "bytes": 846,
+        "checksum_sha256": "61ee948b004e591c56931f57ddd8a158686e0606f08085c19f99db5a003d6431",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2025-02.csv",
+        "month": "2025-02",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2025-02.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2025-02.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "81295f59566a0d931605277d2011c8702b44f8c3d7f63a66c9bf0eda0ae73e23",
+      "manifest": {
+        "bytes": 938,
+        "checksum_sha256": "6d9364c5af3b1342e5dbd037433cd85de5a15d52288f6fdb9c687e30013d9068",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2025-03.csv",
+        "month": "2025-03",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2025-03.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2025-03.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "e8976199bc19f24dbf31292cfe2b9f1c05a7fb618abe19e9c27c97ba336106bc",
+      "manifest": {
+        "bytes": 932,
+        "checksum_sha256": "c5fda0708168a6d4f4f7dcd7c9e3498ac34f2b8d77a877463b4123b2f1747a13",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2025-04.csv",
+        "month": "2025-04",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2025-04.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2025-04.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "97a3aafdc8b133af916635425d11f5b693077fe59e0ac4d1f5c72b124c503dc8",
+      "manifest": {
+        "bytes": 949,
+        "checksum_sha256": "4c9169ff484c646eb60717652b399d31af312b681fcc2f75cf312c8274a93fd8",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2025-05.csv",
+        "month": "2025-05",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2025-05.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2025-05.manifest.json"
+    },
+    {
+      "bytes": 342,
+      "checksum_sha256": "98e018bc07a29fbf615d86b55a6cf473e21472c727114a4a470dc4e2a5d13611",
+      "manifest": {
+        "bytes": 942,
+        "checksum_sha256": "dae9443dbe8ba61175116c48eefd66d2d13487f6c2681b0b897320cfe4062f5e",
+        "kind": "funding",
+        "member_name": "ETHUSDC-fundingRate-2025-06.csv",
+        "month": "2025-06",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/fundingRate/ETHUSDC/ETHUSDC-fundingRate-2025-06.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/funding_2025-06.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "04e05ee94676d69bbdf70d71d0370ddfe81c066fcc55922d8506bf2065a1204a",
+      "manifest": {
+        "bytes": 1397231,
+        "checksum_sha256": "f06335d537e49fb5ba35e0e895ea31c31e443920f91826e6abb9cdb65a17d441",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-01.csv",
+        "month": "2024-01",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-01.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-01.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "26996a62691e491c3f0ad385d81d3eab21e9c77d1151f86fa91a32b833223e10",
+      "manifest": {
+        "bytes": 1527710,
+        "checksum_sha256": "f1bf1955dcba9c1165503e939f28d186b5da24775126467ed7389e983fbe4984",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-02.csv",
+        "month": "2024-02",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-02.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-02.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "46945cc0df31479d5d3e429f9957b4056222ab0724558b36b96b10de6229d96e",
+      "manifest": {
+        "bytes": 1778023,
+        "checksum_sha256": "83ea584891ac4ab679c50809474948d018081c7e0ba81cab1b4ee82d185c2460",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-03.csv",
+        "month": "2024-03",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-03.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-03.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "4c63a9761c49103d2834c2012c240b15c5dfdd53450029d66ec7dd8553945af6",
+      "manifest": {
+        "bytes": 1729730,
+        "checksum_sha256": "4470ecdaf956f3c9c316b40d0a4013babd0e4047e646cb34292cf556ec6b1431",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-04.csv",
+        "month": "2024-04",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-04.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-04.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "005a9d2da4b9c29d0233eba0e3c4879ba5794b70bf286df56b098a756fc4d329",
+      "manifest": {
+        "bytes": 1795289,
+        "checksum_sha256": "81014b646f218646f8255bb0885d39bbea5ba131633186376797e83ab6371965",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-05.csv",
+        "month": "2024-05",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-05.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-05.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "72e3833d17f197afbf16a190b8e9cede17da2a4d7d42dc6378b373c80285a311",
+      "manifest": {
+        "bytes": 1711995,
+        "checksum_sha256": "af7da3f2ea79e60ea37b41880172aecdb16dd58fd30fc7802f3700b9ba219737",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-06.csv",
+        "month": "2024-06",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-06.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-06.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "fc3408b9eead42ad80cc1174dc7e8927fc8ad6c88c558fd33afa712d6ecccd14",
+      "manifest": {
+        "bytes": 1785205,
+        "checksum_sha256": "301c8d646217097f5800b97fa7703560d7b457c5287e25ee9e8234e476e0494f",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-07.csv",
+        "month": "2024-07",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-07.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-07.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "713302574170b5d06e60248767babea42ebe90c3c2c78a6f16af278ffe7cea04",
+      "manifest": {
+        "bytes": 1768465,
+        "checksum_sha256": "c4a22c9c4c56ce9e7efc33ae9a22cfd795e4e6c3e5591bfd6f3fbfd93f4b9729",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-08.csv",
+        "month": "2024-08",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-08.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-08.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "59e2b605402d0224b72b66e4132b6150c106799fda614acac0aa08d5b18e75e6",
+      "manifest": {
+        "bytes": 1661491,
+        "checksum_sha256": "e79ead5c56fd0fd769fd13d9d162a330949e5e05e8a7e0f0d506d7fcfcd8723a",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-09.csv",
+        "month": "2024-09",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-09.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-09.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "848d779bccabbbc80feae5c8644f66a7a26f8984bba534ca025ca90d37c43eed",
+      "manifest": {
+        "bytes": 1694282,
+        "checksum_sha256": "db1d0028605f6aedd3838d53ec21ac08251301f0ccedde886aace5457c14377e",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-10.csv",
+        "month": "2024-10",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-10.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-10.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "0910f5851d541a13f7187aa9021347cf77b89379257c67e3b5b48cf04d95f908",
+      "manifest": {
+        "bytes": 1728714,
+        "checksum_sha256": "f1dc59ba27b144c86cdee87c162ecfcefcee2eb4f93f96ed1ef1ac6575c10367",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-11.csv",
+        "month": "2024-11",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-11.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-11.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "0fb9277dc335ccce17ddf6ef423032c4034bb19f0271e3f8a063c70766d0953f",
+      "manifest": {
+        "bytes": 1774267,
+        "checksum_sha256": "ef2b70d4963c674132d71449001a96eef20b3795360b2152a6fe7b06c3e92272",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2024-12.csv",
+        "month": "2024-12",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2024-12.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2024-12.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "4311c540bc50ed901c03bfdd824164e7ab753cd05b1335c16b53a959bb31a593",
+      "manifest": {
+        "bytes": 1766268,
+        "checksum_sha256": "733ab2c7004af3b28b7715974fd1277d390fe0e83ad407ef5b2c0b1c20f8d0a1",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2025-01.csv",
+        "month": "2025-01",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2025-01.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2025-01.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "72ecb3143e0389db28953cd3fb78f861f4c3fea1ce7abdef7760362bcb7e0183",
+      "manifest": {
+        "bytes": 1613421,
+        "checksum_sha256": "a3b1c9387f9161c714e6e2790777b1b6122f322a4093e5571942b07ccbb10bcc",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2025-02.csv",
+        "month": "2025-02",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2025-02.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2025-02.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "b66c9b92188b853d095b37a85fb13da5ed60e0c6a79da1f81a1d5441dee01bed",
+      "manifest": {
+        "bytes": 1807349,
+        "checksum_sha256": "3319c0830b05f920ab6c301e046ebfd6b2db163a071f74afa6a59060af0ddc62",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2025-03.csv",
+        "month": "2025-03",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2025-03.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2025-03.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "a6b48a513661be9b80f73611a07d83e0b2aaf13994f7015890af92a1096b3dfe",
+      "manifest": {
+        "bytes": 1773635,
+        "checksum_sha256": "994d1f5588b6a19da584d23d8d9a9065bd083d9d95a354b5f1ed1e0e555b3dc5",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2025-04.csv",
+        "month": "2025-04",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2025-04.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2025-04.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "055a7c9ecb4f73583360de123c3fe19fc564c2aba22cb8645fb03482ebdfc31f",
+      "manifest": {
+        "bytes": 1884353,
+        "checksum_sha256": "fdd68c4a9f1cf6afd8c1eaed3dec21d04e95290158dd0ba09aa987b09b0fafb8",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2025-05.csv",
+        "month": "2025-05",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2025-05.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2025-05.manifest.json"
+    },
+    {
+      "bytes": 325,
+      "checksum_sha256": "c9b6fe084d910f43b60068edc8f642d8151a6378217b3c12a1b2b8e1e7eeacb8",
+      "manifest": {
+        "bytes": 1808569,
+        "checksum_sha256": "02f58aefbdc105c9fe795087d1999978e67c184a2f33044d156cddf550f6045b",
+        "kind": "klines",
+        "member_name": "ETHUSDC-1m-2025-06.csv",
+        "month": "2025-06",
+        "schema_version": 1,
+        "url": "https://data.binance.vision/data/futures/um/monthly/klines/ETHUSDC/1m/ETHUSDC-1m-2025-06.zip"
+      },
+      "path": "data/raw/binance_vision/ETHUSDC/klines_2025-06.manifest.json"
+    }
+  ],
+  "schema_version": 2
+}

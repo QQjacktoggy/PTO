@@ -1,0 +1,15 @@
+{
+  "artifact_hashes": {
+    "evidence_index": "e16a29195e9411abb64bfb6ee4f8d6f0ecf5be5cb0975ac41579f7b977bb9f6d",
+    "gate": "30d306dabbaf4bcc719aaff106fc9b2d064e711488f4e3609a260e21b8b81046",
+    "phase_report": "d88a2e967265a1e979bf0ac41f143ce43af809716696788ff2148f64d3e4ab2b",
+    "status": "7772e66a23f23606ecc716a9ff550b9bdba4449991770c971b820ef79dfe7ec5"
+  },
+  "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+  "created_at": "2026-07-26T00:43:55.542618Z",
+  "git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+  "implementation_git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+  "phase": 1,
+  "schema_version": 3,
+  "status": "PASS"
+}

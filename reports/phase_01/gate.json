@@ -1,0 +1,31 @@
+{
+  "config_hash": "7515e05ac6f0f92044d998037747a699357a6dc9ce6705d327105de81c924c9b",
+  "evidence_index_path": "data/manifests/evidence-index.json",
+  "evidence_index_sha256": "e16a29195e9411abb64bfb6ee4f8d6f0ecf5be5cb0975ac41579f7b977bb9f6d",
+  "expected_end_ms": 1751327999999,
+  "expected_start_ms": 1704412800000,
+  "generated_at": "2026-07-26T00:43:55.542618Z",
+  "implementation_git_sha": "933c7ff07574700e4aad45942c547a1b225c0d05",
+  "minimum_history_days": 540,
+  "phase": 1,
+  "schema_version": 3,
+  "status": "PASS",
+  "symbols": {
+    "BTCUSDC": {
+      "critical_count": 0,
+      "first_open_time_ms": 1704412800000,
+      "issues": [],
+      "last_open_time_ms": 1751327940000,
+      "rows": 781920,
+      "warning_count": 0
+    },
+    "ETHUSDC": {
+      "critical_count": 0,
+      "first_open_time_ms": 1704412800000,
+      "issues": [],
+      "last_open_time_ms": 1751327940000,
+      "rows": 781920,
+      "warning_count": 0
+    }
+  }
+}

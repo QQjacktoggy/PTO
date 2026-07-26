@@ -54,6 +54,7 @@ class MarketContract:
     primary_symbol: str
     generalization_symbols: tuple[str, ...]
     timeframes: Mapping[str, str]
+    minimum_history_days_research: int
 
 
 @dataclass(frozen=True)
@@ -210,7 +211,12 @@ def _validate_markets(research: ConfigMap, errors: list[str]) -> MarketContract:
     required_timeframes = ("raw_execution", "micro_support", "signal_decision", "higher_regime")
     for key in required_timeframes:
         _required_string(timeframes, key, "research.markets.timeframes", errors)
-    return MarketContract(symbol, tuple(generalization), timeframes)
+    minimum_history_days = _required_int(
+        markets, "minimum_history_days_research", "research.markets", errors
+    )
+    if minimum_history_days <= 0:
+        errors.append("research.markets.minimum_history_days_research must be greater than zero")
+    return MarketContract(symbol, tuple(generalization), timeframes, minimum_history_days)
 
 
 def _validate_capital(research: ConfigMap, errors: list[str]) -> CapitalContract:

@@ -65,3 +65,5 @@ governance:
   require_frozen_manifest: true
   no_post_holdout_retuning_claim: true
   all_calendar_days_in_daily_average: true
+  phase1_research_start_utc: "2024-01-05T00:00:00Z"
+  phase1_research_end_utc: "2025-06-30T23:59:59.999Z"
