@@ -6,6 +6,13 @@ from pathlib import Path
 import pytest
 import yaml
 
+try:
+    from yaml import CDumper as FastSafeDumper
+    from yaml import CSafeLoader as FastSafeLoader
+except ImportError:
+    from yaml import Dumper as FastSafeDumper  # type: ignore[assignment]
+    from yaml import SafeLoader as FastSafeLoader  # type: ignore[assignment]
+
 from pto_quant.config import ConfigValidationError, config_bundle_hash, load_config
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,9 +26,10 @@ def copy_config(tmp_path: Path) -> Path:
 
 
 def mutate_yaml(path: Path, mutation: object) -> None:
-    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    # Use FastSafeLoader and FastSafeDumper to optimize configuration parsing/dumping in tests.
+    data = yaml.load(path.read_text(encoding="utf-8"), Loader=FastSafeLoader)
     mutation(data)  # type: ignore[operator]
-    path.write_text(yaml.safe_dump(data), encoding="utf-8")
+    path.write_text(yaml.dump(data, Dumper=FastSafeDumper), encoding="utf-8")
 
 
 def test_loads_supplied_configuration() -> None:
