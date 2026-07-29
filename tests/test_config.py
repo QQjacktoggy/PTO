@@ -6,7 +6,13 @@ from pathlib import Path
 import pytest
 import yaml
 
-from pto_quant.config import ConfigValidationError, config_bundle_hash, load_config
+from pto_quant.config import (
+    ConfigValidationError,
+    FastSafeDumper,
+    FastSafeLoader,
+    config_bundle_hash,
+    load_config,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -19,9 +25,9 @@ def copy_config(tmp_path: Path) -> Path:
 
 
 def mutate_yaml(path: Path, mutation: object) -> None:
-    data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    data = yaml.load(path.read_text(encoding="utf-8"), Loader=FastSafeLoader)
     mutation(data)  # type: ignore[operator]
-    path.write_text(yaml.safe_dump(data), encoding="utf-8")
+    path.write_text(yaml.dump(data, Dumper=FastSafeDumper), encoding="utf-8")
 
 
 def test_loads_supplied_configuration() -> None:
