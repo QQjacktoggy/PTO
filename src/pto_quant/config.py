@@ -10,6 +10,14 @@ from pathlib import Path
 from typing import Any, TypeAlias, cast
 
 import yaml
+
+# Performance optimization: Use C-based CSafeLoader (FastSafeLoader)
+# if available to speed up YAML parsing.
+try:
+    from yaml import CSafeLoader as FastSafeLoader
+except ImportError:
+    from yaml import SafeLoader as FastSafeLoader  # type: ignore[assignment]
+
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
 
@@ -105,7 +113,8 @@ def _mapping(value: Any, location: str, errors: list[str]) -> ConfigMap:
 
 def _read_yaml(path: Path) -> ConfigMap:
     try:
-        data: Any = yaml.safe_load(path.read_text(encoding="utf-8"))
+        # Utilize the accelerated FastSafeLoader to parser YAML documents faster.
+        data: Any = yaml.load(path.read_text(encoding="utf-8"), Loader=FastSafeLoader)
     except (OSError, yaml.YAMLError) as exc:
         raise ConfigValidationError([f"cannot load {path}: {exc}"]) from exc
     if not isinstance(data, dict):
