@@ -13,6 +13,9 @@ import yaml
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError
 
+# Speed optimization: use high-performance C-based Loader if available, fall back to SafeLoader
+FastSafeLoader = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
+
 ConfigMap: TypeAlias = dict[str, Any]
 
 CONFIG_FILES = (
@@ -105,7 +108,7 @@ def _mapping(value: Any, location: str, errors: list[str]) -> ConfigMap:
 
 def _read_yaml(path: Path) -> ConfigMap:
     try:
-        data: Any = yaml.safe_load(path.read_text(encoding="utf-8"))
+        data: Any = yaml.load(path.read_text(encoding="utf-8"), Loader=FastSafeLoader)
     except (OSError, yaml.YAMLError) as exc:
         raise ConfigValidationError([f"cannot load {path}: {exc}"]) from exc
     if not isinstance(data, dict):
