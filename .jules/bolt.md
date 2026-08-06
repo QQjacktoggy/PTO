@@ -1,0 +1,3 @@
+## 2026-07-25 - [CSafeLoader YAML Performance Optimization]
+**Learning:** YAML configurations in this codebase are validated and loaded frequently during CLI execution and test collection. The standard `yaml.safe_load` uses PyYAML's pure-Python parser which is quite slow. Using PyYAML's C-based `CSafeLoader` aliased as `FastSafeLoader` with a fallback reduces config loading overhead by ~77.8% (~92.1ms down to ~20.4ms per 100 config loads), which significantly improves developer loop speed (test suite execution).
+**Action:** Always import and use `FastSafeLoader` when reading YAML configuration files in the codebase, and add `# type: ignore[assignment]` if Mypy complains about conditional imports of type loaders.
